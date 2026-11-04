@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.npmcache/
+.npmlogs/
+.astro/
+.DS_Store
+.screens/
