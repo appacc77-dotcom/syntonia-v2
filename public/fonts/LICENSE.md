@@ -10,6 +10,7 @@ self-hosting и встраивание в сайт.
 | Cormorant Garamond | 300 | Google Fonts | OFL 1.1 |
 | Great Vibes | 400 | Google Fonts | OFL 1.1 |
 | Hurricane | 400 (latin) | Google Fonts | OFL 1.1 |
+| Lora | 400 italic | Google Fonts | OFL 1.1 |
 
 Файлы — официальные woff2-сборки Google Fonts, подмножества `cyrillic` и `latin`
 (у Hurricane — только `latin`, он используется для латинской подписи).

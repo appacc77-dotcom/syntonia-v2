@@ -5,3 +5,8 @@ dist/
 .astro/
 .DS_Store
 .screens/
+
+# тяжёлая выгрузка Figma — локально, воспроизводится кропом
+design/export/home/Website Syntonia.png
+design/export/home/main.pdf
+design/export/home/home-1440.png
