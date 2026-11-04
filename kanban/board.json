@@ -1,0 +1,190 @@
+{
+  "columns": [
+    {
+      "id": "backlog",
+      "title": "Бэклог",
+      "cards": [
+        {
+          "id": "backlog-entry",
+          "title": "Entry",
+          "description": "Точка входа после hero: оффер, форматы и первый CTA.",
+          "tag": "Section",
+          "assignee": "agent",
+          "priority": "high",
+          "createdAt": "2026-11-04T07:05:00.000Z"
+        },
+        {
+          "id": "backlog-formats",
+          "title": "Formats",
+          "description": "Сетка форматов, hover-состояния карточек и цены.",
+          "tag": "Section",
+          "assignee": "agent",
+          "priority": "medium",
+          "createdAt": "2026-11-04T07:10:00.000Z"
+        },
+        {
+          "id": "backlog-voices",
+          "title": "Voices",
+          "description": "Отзывы: сетка голосов, кавычки, подписи и мобильная карусель.",
+          "tag": "Section",
+          "assignee": "agent",
+          "priority": "medium",
+          "createdAt": "2026-11-04T07:15:00.000Z"
+        },
+        {
+          "id": "backlog-library",
+          "title": "Library",
+          "description": "Библиотека материалов: фильтры, карточки, пустое состояние.",
+          "tag": "Section",
+          "assignee": "agent",
+          "priority": "medium",
+          "createdAt": "2026-11-04T07:20:00.000Z"
+        },
+        {
+          "id": "backlog-air-photo",
+          "title": "Air-photo",
+          "description": "Подобрать воздушное фото и подготовить кропы под три брейкпоинта.",
+          "tag": "Photos",
+          "assignee": "human",
+          "priority": "high",
+          "createdAt": "2026-11-04T07:25:00.000Z"
+        },
+        {
+          "id": "backlog-faq",
+          "title": "FAQ",
+          "description": "Аккордеон FAQ: доступность с клавиатуры и плавное раскрытие.",
+          "tag": "Section",
+          "assignee": "agent",
+          "priority": "low",
+          "createdAt": "2026-11-04T07:30:00.000Z"
+        },
+        {
+          "id": "backlog-footer",
+          "title": "Footer",
+          "description": "Футер: навигация, подписка и юридические ссылки.",
+          "tag": "Section",
+          "assignee": "agent",
+          "priority": "low",
+          "createdAt": "2026-11-04T07:35:00.000Z"
+        },
+        {
+          "id": "backlog-mobile-menu",
+          "title": "Mobile menu + play",
+          "description": "Меню и кнопка play на мобильных: фокус-ловушка, Escape, блокировка скролла.",
+          "tag": "UX",
+          "assignee": "agent",
+          "priority": "medium",
+          "createdAt": "2026-11-04T07:40:00.000Z"
+        },
+        {
+          "id": "backlog-verify-tools",
+          "title": "Spec/verify tools",
+          "description": "Инструменты сверки: оверлеи, скриншоты и проверка токенов.",
+          "tag": "Tooling",
+          "assignee": "both",
+          "priority": "low",
+          "createdAt": "2026-11-04T07:45:00.000Z"
+        },
+        {
+          "id": "backlog-image-optimization",
+          "title": "Image optimization",
+          "description": "AVIF/WebP, srcset и ленивая загрузка для тяжёлых изображений.",
+          "tag": "Perf",
+          "assignee": "agent",
+          "priority": "medium",
+          "createdAt": "2026-11-04T07:50:00.000Z"
+        },
+        {
+          "id": "backlog-other-pages",
+          "title": "Остальные страницы",
+          "description": "Подход, формат, библиотека и контакты — на общих компонентах после главной.",
+          "tag": "Pages",
+          "assignee": "agent",
+          "priority": "low",
+          "createdAt": "2026-11-04T07:55:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "progress",
+      "title": "В работе",
+      "cards": [
+        {
+          "id": "backlog-process",
+          "title": "Process: три stage-карточки",
+          "description": "Секция 1429 px: заголовок, три карточки 1080×339 с фото и текстом, мобильная раскладка.",
+          "tag": "Section",
+          "assignee": "agent",
+          "priority": "high",
+          "createdAt": "2026-11-04T07:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "review",
+      "title": "Ревью",
+      "cards": [
+        {
+          "id": "review-image-crops",
+          "title": "Проверить кропы banner/pain из imageTransform",
+          "description": "Кропы banner/quiz/founder совпали; pain требует paintFilter (exposure/vibrance) в пайплайне.",
+          "tag": "Figma",
+          "assignee": "human",
+          "priority": "high",
+          "createdAt": "2026-11-04T11:15:00.000Z"
+        },
+        {
+          "id": "review-kanban-ux",
+          "title": "Проверить, что канбан удобен",
+          "description": "Пройти сценарий: drag-and-drop, добавление, редактирование и сохранение доски.",
+          "tag": "Tooling",
+          "assignee": "both",
+          "priority": "low",
+          "createdAt": "2026-11-04T12:30:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "done",
+      "title": "Готово",
+      "cards": [
+        {
+          "id": "progress-next-sections",
+          "title": "Method, Quiz, About founder",
+          "description": "Три секции собраны и сверены по выгрузке: высоты 615/550/757, пиксельная Δ 3,06/2,09/2,20.",
+          "tag": "Sections",
+          "assignee": "agent",
+          "priority": "high",
+          "createdAt": "2026-11-04T10:10:00.000Z"
+        },
+        {
+          "id": "done-astro-spike",
+          "title": "Astro-спайк: шапка + hero + banner + pain",
+          "description": "Собрали первый экран на Astro: шапка, hero, бегущая строка и блок боли. Dev и build проходят.",
+          "tag": "Astro",
+          "assignee": "both",
+          "priority": "high",
+          "createdAt": "2026-11-03T09:20:00.000Z"
+        },
+        {
+          "id": "done-figma-svg",
+          "title": "Точные SVG из Figma",
+          "description": "Выгрузили векторные ассеты из макета и заменили временные заглушки.",
+          "tag": "Figma",
+          "assignee": "agent",
+          "priority": "high",
+          "createdAt": "2026-11-03T14:05:00.000Z"
+        },
+        {
+          "id": "done-pixel-check",
+          "title": "Пиксельная сверка шести секций",
+          "description": "Δ 3,31 в среднем, 2,94% пикселей >16 на 1440. Остаток — сглаживание шрифтов.",
+          "tag": "QA",
+          "assignee": "both",
+          "priority": "medium",
+          "createdAt": "2026-11-04T10:40:00.000Z"
+        }
+      ]
+    }
+  ]
+}
