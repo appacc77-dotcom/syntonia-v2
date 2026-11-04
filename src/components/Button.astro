@@ -3,7 +3,7 @@ interface Props {
   href: string;
   label: string;
   variant?: 'solid' | 'textured' | 'outline';
-  size?: 'm' | 'l';
+  size?: 'm' | 'l' | 'xs';
   caps?: boolean;
   arrow?: boolean;
   class?: string;
@@ -71,6 +71,12 @@ const {
     padding: 16px 24px;
   }
 
+  .btn--xs {
+    height: 45px;
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+
   .btn--solid {
     background: var(--color-accent);
   }
@@ -126,6 +132,14 @@ const {
     width: 182px;
   }
 
+  .btn--format {
+    width: 211px;
+  }
+
+  .btn--faq {
+    width: 182px;
+  }
+
   .btn:hover {
     opacity: 0.92;
   }
@@ -140,7 +154,9 @@ const {
     .btn--hero,
     .btn--pain,
     .btn--entry,
-    .btn--formats {
+    .btn--formats,
+    .btn--format,
+    .btn--faq {
       width: auto;
       min-width: 0;
     }

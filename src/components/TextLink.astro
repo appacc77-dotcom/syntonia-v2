@@ -2,7 +2,7 @@
 interface Props {
   href: string;
   label: string;
-  size?: 'm' | 'l';
+  size?: 's' | 'm' | 'l';
   arrow?: boolean;
   class?: string;
 }
@@ -38,6 +38,11 @@ const { href, label, size = 'm', arrow = true, class: className } = Astro.props;
     border-bottom: 1px solid currentColor;
   }
 
+  .text-link--s {
+    font-size: 18px;
+    line-height: 29px;
+  }
+
   .text-link--m {
     font-size: 24px;
     line-height: 40px;
@@ -60,6 +65,11 @@ const { href, label, size = 'm', arrow = true, class: className } = Astro.props;
   }
 
   @media (max-width: 700px) {
+    .text-link--s {
+      font-size: 17px;
+      line-height: 28px;
+    }
+
     .text-link--m {
       font-size: 20px;
       line-height: 32px;
