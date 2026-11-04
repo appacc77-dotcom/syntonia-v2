@@ -5,24 +5,6 @@
       "title": "Бэклог",
       "cards": [
         {
-          "id": "backlog-entry",
-          "title": "Entry",
-          "description": "Точка входа после hero: оффер, форматы и первый CTA.",
-          "tag": "Section",
-          "assignee": "agent",
-          "priority": "high",
-          "createdAt": "2026-11-04T07:05:00.000Z"
-        },
-        {
-          "id": "backlog-formats",
-          "title": "Formats",
-          "description": "Сетка форматов, hover-состояния карточек и цены.",
-          "tag": "Section",
-          "assignee": "agent",
-          "priority": "medium",
-          "createdAt": "2026-11-04T07:10:00.000Z"
-        },
-        {
           "id": "backlog-voices",
           "title": "Voices",
           "description": "Отзывы: сетка голосов, кавычки, подписи и мобильная карусель.",
@@ -110,13 +92,13 @@
       "title": "В работе",
       "cards": [
         {
-          "id": "backlog-process",
-          "title": "Process: три stage-карточки",
-          "description": "Секция 1429 px: заголовок, три карточки 1080×339 с фото и текстом, мобильная раскладка.",
+          "id": "backlog-formats",
+          "title": "Formats: сетка и состояния",
+          "description": "Секция 1164 px: форматы работы, карточки, hover/selected. Следующая.",
           "tag": "Section",
           "assignee": "agent",
-          "priority": "high",
-          "createdAt": "2026-11-04T07:00:00.000Z"
+          "priority": "medium",
+          "createdAt": "2026-11-04T07:10:00.000Z"
         }
       ]
     },
@@ -149,6 +131,24 @@
       "title": "Готово",
       "cards": [
         {
+          "id": "backlog-entry",
+          "title": "Entry: точка входа",
+          "description": "Секция 892 px: заголовок, текстовая карточка, фото, две кнопки. Δ 4,79.",
+          "tag": "Section",
+          "assignee": "agent",
+          "priority": "high",
+          "createdAt": "2026-11-04T07:05:00.000Z"
+        },
+        {
+          "id": "backlog-process",
+          "title": "Process: три stage-карточки",
+          "description": "Секция 1429 px: заголовок, три карточки 1080×339 с watercolor-иллюстрациями. Δ 1,53.",
+          "tag": "Section",
+          "assignee": "agent",
+          "priority": "high",
+          "createdAt": "2026-11-04T07:00:00.000Z"
+        },
+        {
           "id": "progress-next-sections",
           "title": "Method, Quiz, About founder",
           "description": "Три секции собраны и сверены по выгрузке: высоты 615/550/757, пиксельная Δ 3,06/2,09/2,20.",
@@ -177,8 +177,8 @@
         },
         {
           "id": "done-pixel-check",
-          "title": "Пиксельная сверка шести секций",
-          "description": "Δ 3,31 в среднем, 2,94% пикселей >16 на 1440. Остаток — сглаживание шрифтов.",
+          "title": "Пиксельная сверка восьми секций",
+          "description": "Δ 3,12 в среднем, 3,15% пикселей >16 на 6255 px. Остаток — сглаживание шрифтов.",
           "tag": "QA",
           "assignee": "both",
           "priority": "medium",
