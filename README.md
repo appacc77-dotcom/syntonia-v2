@@ -11,7 +11,6 @@ HTML-компоненты Astro + обычный CSS + данные из Figma, 
 npm install
 npm run dev      # http://127.0.0.1:4321/
 npm run build    # dist/index.html
-npm run board    # канбан: http://127.0.0.1:4324/
 ```
 
 ## Что внутри
@@ -26,7 +25,6 @@ src/pages/index.astro
 src/styles/tokens.css, base.css
 public/fonts, public/img, public/icons
 design/export/home/     выгрузка Figma и кроп главной
-kanban/                 локальная доска
 ```
 
 ## Выгрузка из Figma
@@ -99,12 +97,6 @@ kanban/                 локальная доска
 `loading="lazy"` не успевает за полным скриншотом. Перед снятием нужно
 проскроллить страницу и дождаться `document.images`; иначе process/entry
 выглядят тёмными и Δ врёт.
-
-## Канбан
-
-`npm run board` → http://127.0.0.1:4324/. Карточки в `kanban/board.json`,
-drag-and-drop, добавление/редактирование, фильтры, сохранение. Локальный
-инструмент без авторизации — не выставлять порт в сеть.
 
 ## Что не сделано
 
