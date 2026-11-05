@@ -1,4 +1,4 @@
-export type Status = 'done' | 'review' | 'todo';
+export type Status = 'done' | 'progress' | 'todo';
 
 export interface Shots {
   before: string;
@@ -50,7 +50,7 @@ export const globalBlocks: Block[] = [
     title: 'Шапка',
     does: 'Фиксированная тёмная шапка: nav, лого, CTA «Личная встреча», кабинет, бургер и мобильное меню.',
     task: 'Исправить якоря #voices/#faq, тап-таргет бургера и возврат фокуса после Escape; уточнить 7 nav-ссылок + CTA или 8 + CTA.',
-    status: 'review',
+    status: 'progress',
     note: 'Карточка c-3fea934a — RED, в работе.',
   },
   {
@@ -191,7 +191,7 @@ export const pages: SitePage[] = [
     number: '02',
     title: 'Метод',
     route: '/method.html',
-    status: 'review',
+    status: 'progress',
     note: 'Собрано 2737 px, геометрия и адаптив сходятся. Приёмка RED: эталон — старая сборка, не Figma; width 219/160 без waiver.',
     height: '2 737 px',
     blocks: [
@@ -200,7 +200,7 @@ export const pages: SitePage[] = [
         title: 'Hero',
         does: 'Первый экран метода: заголовок и описание подводного кадра.',
         task: 'Настоящий Figma-кроп; после этого пересчитать Δ.',
-        status: 'review',
+        status: 'progress',
         images: methodShot('hero'),
       },
       {
@@ -208,15 +208,15 @@ export const pages: SitePage[] = [
         title: 'Principles',
         does: 'Три принципа: глубинный уровень, целостный подход, практический результат.',
         task: 'Пересобрать отчёт по шаблону: figma_version, команды, deviations.',
-        status: 'review',
+        status: 'progress',
         images: methodShot('principles'),
       },
       {
         id: 'cta',
-        title: 'Method CTA',
+        title: 'CTA',
         does: 'CTA на точку входа и вопрос; фото лестницы.',
         task: 'Убрать width 219/160 или оформить waiver в decisions.md.',
-        status: 'review',
+        status: 'progress',
         images: methodShot('cta'),
       },
     ],
@@ -345,6 +345,6 @@ export const pages: SitePage[] = [
 
 export const statusLabel: Record<Status, string> = {
   done: 'готово',
-  review: 'на доработке',
+  progress: 'в работе',
   todo: 'не начато',
 };

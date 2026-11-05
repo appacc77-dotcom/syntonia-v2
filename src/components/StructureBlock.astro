@@ -5,12 +5,14 @@ import { statusLabel } from '../data/structure';
 interface Props {
   block: Block;
   pageRoute: string;
+  anchorId: string;
+  cardLabel: string;
 }
 
-const { block, pageRoute } = Astro.props;
+const { block, pageRoute, anchorId, cardLabel } = Astro.props;
 ---
 
-<article class:list={['block', `block--${block.status}`]}>
+<article class:list={['block', `block--${block.status}`]} id={anchorId}>
   <div class="block__body">
     <div class="block__top">
       <span class="block__status">{statusLabel[block.status]}</span>
@@ -22,6 +24,7 @@ const { block, pageRoute } = Astro.props;
       {block.task}
     </p>
     {block.note && <p class="block__note">{block.note}</p>}
+    <span class="block__card">Карточка: {cardLabel}</span>
     <a class="block__link" href={pageRoute} target="_blank" rel="noreferrer">
       Открыть страницу
       <span aria-hidden="true">→</span>
@@ -75,7 +78,7 @@ const { block, pageRoute } = Astro.props;
     background: #fbf8f1;
   }
 
-  .block--review {
+  .block--progress {
     border-color: #d8bd82;
   }
 
@@ -107,7 +110,7 @@ const { block, pageRoute } = Astro.props;
     color: #51552f;
   }
 
-  .block--review .block__status {
+  .block--progress .block__status {
     background: #f3e6c9;
     color: #7a5a13;
   }
@@ -148,6 +151,13 @@ const { block, pageRoute } = Astro.props;
 
   .block__note {
     color: #8a6a1f;
+  }
+
+  .block__card {
+    color: #8b8478;
+    font-family: var(--font-body);
+    font-size: 11px;
+    line-height: 16px;
   }
 
   .block__link {

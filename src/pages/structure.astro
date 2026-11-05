@@ -5,11 +5,13 @@ import { globalBlocks, pages, statusLabel } from '../data/structure';
 
 const allPageBlocks = pages.flatMap((page) => page.blocks);
 const pagesDone = pages.filter((page) => page.status === 'done').length;
-const pagesReview = pages.filter((page) => page.status === 'review').length;
+const pagesProgress = pages.filter((page) => page.status === 'progress').length;
 const pagesTodo = pages.filter((page) => page.status === 'todo').length;
 const blocksDone = allPageBlocks.filter((block) => block.status === 'done').length;
-const blocksReview = allPageBlocks.filter((block) => block.status === 'review').length;
+const blocksProgress = allPageBlocks.filter((block) => block.status === 'progress').length;
 const blocksTodo = allPageBlocks.filter((block) => block.status === 'todo').length;
+const globalDone = globalBlocks.filter((block) => block.status === 'done').length;
+const globalProgress = globalBlocks.filter((block) => block.status === 'progress').length;
 ---
 
 <BaseLayout
@@ -34,12 +36,17 @@ const blocksTodo = allPageBlocks.filter((block) => block.status === 'todo').leng
         <div class="stat">
           <span class="stat__label">Страницы</span>
           <strong>{pagesDone} / {pages.length}</strong>
-          <span class="stat__hint">готово · {pagesReview} в работе · {pagesTodo} не начато</span>
+          <span class="stat__hint">готово · {pagesProgress} в работе · {pagesTodo} не начато</span>
         </div>
         <div class="stat">
           <span class="stat__label">Блоки страниц</span>
           <strong>{blocksDone} / {allPageBlocks.length}</strong>
-          <span class="stat__hint">{blocksReview} на доработке · {blocksTodo} не начато</span>
+          <span class="stat__hint">{blocksProgress} в работе · {blocksTodo} не начато</span>
+        </div>
+        <div class="stat">
+          <span class="stat__label">Общие блоки</span>
+          <strong>{globalDone} / {globalBlocks.length}</strong>
+          <span class="stat__hint">{globalProgress} в работе · {globalBlocks.length - globalDone - globalProgress} не начато</span>
         </div>
         <div class="stat">
           <span class="stat__label">Сервер</span>
@@ -50,9 +57,20 @@ const blocksTodo = allPageBlocks.filter((block) => block.status === 'todo').leng
 
       <div class="legend">
         <span class="legend__item"><i class="dot dot--done"></i>готово</span>
-        <span class="legend__item"><i class="dot dot--review"></i>собрано, приёмка не пройдена</span>
+        <span class="legend__item"><i class="dot dot--progress"></i>в работе</span>
         <span class="legend__item"><i class="dot dot--todo"></i>не начато</span>
       </div>
+
+      <p class="workflow">
+        Блок не совпал? В канбане найди карточку с его названием — например,{' '}
+        <code>Home · Formats</code> — и перетащи её в «В работе». Названия
+        карточек совпадают с подписями на этой странице.
+      </p>
+
+      <p class="cards-summary">
+        На доске 28 карточек: 14 в «Готово», 4 в «В работе», 9 в «Бэклоге»,
+        1 в «На приёмке».
+      </p>
     </header>
 
     <section class="global" aria-labelledby="global-title">
@@ -66,7 +84,12 @@ const blocksTodo = allPageBlocks.filter((block) => block.status === 'todo').leng
       <div class="blocks blocks--global">
         {
           globalBlocks.map((block) => (
-            <StructureBlock block={block} pageRoute="/" />
+            <StructureBlock
+              block={block}
+              pageRoute="/"
+              anchorId={`block-${block.id}`}
+              cardLabel={`Shared · ${block.title}`}
+            />
           ))
         }
       </div>
@@ -103,7 +126,12 @@ const blocksTodo = allPageBlocks.filter((block) => block.status === 'todo').leng
           <div class="page-card__blocks">
             {
               page.blocks.map((block) => (
-                <StructureBlock block={block} pageRoute={page.route} />
+                <StructureBlock
+                  block={block}
+                  pageRoute={page.route}
+                  anchorId={`block-${page.id}-${block.id}`}
+                  cardLabel={`${page.id === 'home' ? 'Home' : page.id === 'method' ? 'Method' : 'Page'} · ${page.id === 'home' || page.id === 'method' ? block.title : page.title}`}
+                />
               ))
             }
           </div>
@@ -184,7 +212,7 @@ const blocksTodo = allPageBlocks.filter((block) => block.status === 'todo').leng
 
   .stats {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 12px;
     margin-top: 24px;
   }
@@ -251,12 +279,36 @@ const blocksTodo = allPageBlocks.filter((block) => block.status === 'todo').leng
     background: #6f7540;
   }
 
-  .dot--review {
+  .dot--progress {
     background: #b8870a;
   }
 
   .dot--todo {
     background: #b7b0a3;
+  }
+
+  .workflow {
+    margin-top: 18px;
+    padding: 10px 12px;
+    border-left: 2px solid #b8870a;
+    border-radius: 0 8px 8px 0;
+    background: #f7edda;
+    color: #6b5526;
+    font-family: var(--font-body);
+    font-size: 12px;
+    line-height: 19px;
+  }
+
+  .workflow code {
+    color: #5a4a24;
+  }
+
+  .cards-summary {
+    margin-top: 8px;
+    color: #8b8478;
+    font-family: var(--font-body);
+    font-size: 12px;
+    line-height: 18px;
   }
 
   .global {
@@ -302,7 +354,7 @@ const blocksTodo = allPageBlocks.filter((block) => block.status === 'todo').leng
     background: #fffdf8;
   }
 
-  .page-card--review {
+  .page-card--progress {
     border-color: #d8bd82;
   }
 
@@ -358,7 +410,7 @@ const blocksTodo = allPageBlocks.filter((block) => block.status === 'todo').leng
     color: #51552f;
   }
 
-  .badge--review {
+  .badge--progress {
     background: #f3e6c9;
     color: #7a5a13;
   }
@@ -426,6 +478,10 @@ const blocksTodo = allPageBlocks.filter((block) => block.status === 'todo').leng
   }
 
   @media (max-width: 1100px) {
+    .stats {
+      grid-template-columns: 1fr 1fr;
+    }
+
     .page-card__blocks,
     .page-card--todo .page-card__blocks,
     .blocks--global {
