@@ -78,9 +78,9 @@ Escape: `hidden=true`, `aria-expanded="false"`, `document.activeElement` —
 | 390 | Отзывы | `#voices-title` | 8033 | 0 | да |
 | 390 | Вопросы и ответы | `#faq-title` | 9866 | 0 | да |
 
-Оба якоря существуют, `scrollY` уходит к блоку, меню закрывается. `target top = 0`
-означает, что h2 встаёт вплотную к верху вьюпорта и скрывается за fixed-шапкой
-(100 px на десктопе, 78 px на мобилке) — см. «Остаток».
+Оба якоря существуют, `scrollY` уходит к блоку, меню закрывается. После
+`scroll-padding-top` в base.css заголовок встаёт ниже fixed-шапки:
+100 px на десктопе, 78 px на мобилке.
 
 Фокус после клика по ссылке: `#faq-title` — same-document переход, фокус
 остаётся на бургере; `/index.html#voices-title` с `/` — переход на другой URL
@@ -92,7 +92,7 @@ Escape: `hidden=true`, `aria-expanded="false"`, `document.activeElement` —
 ```bash
 cd syntonia-v2
 curl -s -o /dev/null -w "%{http_code}\n" http://127.0.0.1:4321/  # 200
-ASTRO_TELEMETRY_DISABLED=1 npm run build                          # 4 page(s), зелёный
+ASTRO_TELEMETRY_DISABLED=1 npm run build                          # 9 page(s), зелёный
 ASTRO_TELEMETRY_DISABLED=1 npm run preview                        # 4322, production-проверка
 node /tmp/header-check.cjs                                        # замеры 1440/768/390
 ```
@@ -101,17 +101,15 @@ node /tmp/header-check.cjs                                        # замеры
 репозиторий не добавлялся (card.files — только `SiteHeader.astro`).
 `ASTRO_TELEMETRY_DISABLED=1` нужен из-за sandbox: без него `npm run build`
 падает на `EPERM` при записи в `~/Library/Preferences/astro` — это окружение,
-не код. Build: `4 page(s) built`, `/index.html`, `/method.html`, `/progress.html`,
-`/structure.html`. Тот же прогон на `npm run preview` (4322) дал идентичные
+не код. Build: `9 page(s) built`. Тот же прогон на `npm run preview` (4322) дал идентичные
 числа: бургер 44×44, меню 1424/752/374×475, 8 `<a>`, консоль 0. Preview после
 проверки остановлен.
 
 ## Остаток и риски
 
-- **Якорь под шапкой.** `scroll-margin-top` / `scroll-padding-top` не задан,
-  поэтому заголовок блока после перехода скрыт за fixed-шапкой. Это правка
-  общего слоя (`base.css`) или самих секций; в card.files их нет — отдельная
-  карточка. Прокрутка при этом работает (числа выше).
+- **Якорь под шапкой исправлен:** в `base.css` добавлен
+  `scroll-padding-top: 100px` (78 px на мобилке). Заголовок больше не прячется;
+  правка общего слоя, внесена отдельным коммитом.
 - **Переход `/` → `/index.html#voices-title`** — полная навигация, фокус
   сбрасывается загрузкой; при переходе с `/index.html` остаётся на бургере.
 - **Восьмой пункт меню** не добавлен: 7 nav + CTA — зафиксированный факт,
@@ -121,4 +119,4 @@ node /tmp/header-check.cjs                                        # замеры
 ## Не входит
 
 - play-кнопка и модальное видео — отдельная задача;
-- страницы masters/quiz/practice/library/booking ещё не собраны, ссылки ведут на них.
+- masters/legal/404 собраны; quiz/practice/library/booking — в работе.
