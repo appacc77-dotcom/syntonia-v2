@@ -77,7 +77,7 @@ width был 241.34 — на 22.34 px больше 219; `width: 219px` это м
 
 | # | Команда | Результат | Порог | Вердикт |
 |---|---|---|---|---|
-| 1 | `ASTRO_TELEMETRY_DISABLED=1 npm run build` | exit 0, 4 page(s) built: `/`, `/method.html`, `/progress.html`, `/structure.html` (последняя сборка 22:21 MSK) | exit 0 | ok |
+| 1 | `ASTRO_TELEMETRY_DISABLED=1 npm run build` | exit 0, 9 page(s) built: home, method, masters, legal, 404, progress, structure (последняя сборка 23:38 MSK) | exit 0 | ok |
 | 2 | `node ../syntonia-deepseek/tools/measure.mjs http://127.0.0.1:4321/method.html 1440` | 800 + 1077 + 499; страница 2737 | 2737 / 800 | ok |
 | 3 | то же для 768 | 640 + 1026 + 499; страница 2849 | нет переполнения | ok |
 | 4 | то же для 390 | 600 + 1148 + 586; страница 3280 | нет переполнения | ok |
