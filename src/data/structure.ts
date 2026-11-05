@@ -278,13 +278,13 @@ export const pages: SitePage[] = [
     number: '06',
     title: 'Запись',
     route: '/booking.html',
-    status: 'progress',
+    status: 'review',
     note: 'Figma 1440×2416 + четыре состояния форматов. Не начато; нужна точка отправки формы.',
     height: '2 416 px',
     blocks: [
-      { id: 'booking-hero', title: 'Booking hero', does: 'Первый экран записи.', task: 'Собрать.', status: 'progress' },
-      { id: 'booking-formats', title: 'Booking formats', does: 'Форматы и форма.', task: 'Решить endpoint; собрать валидацию и состояния.', status: 'progress' },
-      { id: 'footer', title: 'Footer', does: 'Общий подвал.', task: 'Переиспользовать.', status: 'progress' },
+      { id: 'booking-hero', title: 'Booking hero', does: 'Первый экран записи.', task: 'Собрать.', status: 'review' },
+      { id: 'booking-formats', title: 'Booking formats', does: 'Форматы и форма.', task: 'Решить endpoint; собрать валидацию и состояния.', status: 'review' },
+      { id: 'footer', title: 'Footer', does: 'Общий подвал.', task: 'Переиспользовать.', status: 'review' },
     ],
   },
   {
