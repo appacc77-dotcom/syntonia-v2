@@ -1,7 +1,8 @@
 # Syntonia v2 — Astro spike
 
-Готовы главная (15 блоков), «Метод», «Мастера», legal/404. В работе
-«Пространство практики», «Библиотека», «Запись» и Quiz. Стек: Astro +
+Собраны все 11 страниц: главная (15 блоков), «Метод», «Мастера»,
+«Пространство практики», «Библиотека», «Запись», Quiz, legal/404.
+Плюс внутренние `/structure.html` и `/progress.html`. Стек: Astro +
 обычный CSS + данные из Figma, без React, Tailwind и CMS.
 
 ## Запуск
@@ -22,12 +23,13 @@ src/components/
   Library, AirPhoto, Faq, Footer, Button, TextLink,
   MethodHero, MethodPrinciples, MethodCta,
   MastersHero, MastersTeam, MastersMore, MasterCard, MasterPlayer,
-  AudioButton, LinkCard, LegalPage
-src/data/formats.ts, voices.ts, structure.ts
+  AudioButton, LinkCard, LegalPage,
+  Practice*, Library*, Booking*, Structures
+src/data/formats.ts, voices.ts, structure.ts, practice.ts, booking.ts
 src/layouts/BaseLayout.astro
-src/pages/index.astro, method.astro, masters.astro,
-  offer.astro, privacy.astro, consent.astro, 404.astro,
-  progress.astro, structure.astro
+src/pages/index.astro, method.astro, masters.astro, practice.astro,
+  library.astro, booking.astro, quiz.astro, offer.astro, privacy.astro,
+  consent.astro, 404.astro, progress.astro, structure.astro
 src/styles/tokens.css, base.css
 public/fonts, public/img, public/icons
 design/export/home/     выгрузка Figma и кроп главной
@@ -111,6 +113,18 @@ reports/layout/         отчёты по карточкам
 на 390 — 6291. Секции собраны по extracted; 1:1 Figma-рендера нет, поэтому
 пиксельная Δ не заявляется. Аудио — честные заглушки.
 
+## Practice / Library / Booking / Quiz
+
+| Страница | 1440 | 390 | Отчёт |
+|---|---:|---:|---|
+| Practice | 9292 | 14459 | reports/layout/practice.md |
+| Library | 3188 | 5126 | reports/layout/library.md |
+| Booking | 2416 | 4055 | reports/layout/booking.md |
+| Quiz | 1218 | 2006 | reports/layout/quiz.md |
+
+Собраны по extracted/старому CSS; 1:1 Figma-рендеров нет. Цены не
+подтверждены, форма записи без endpoint, quiz — 4 draft-вопроса.
+
 ## Legal / 404
 
 `/offer.html`, `/privacy.html`, `/consent.html` — текстовые заглушки 1440×991 /
@@ -142,7 +156,7 @@ reports/layout/         отчёты по карточкам
 | Footer | 361; контент 1152 |
 | 1440 / 768 / 390 | переполнения нет |
 | Консоль | 0 ошибок |
-| Build | проходит, 9 страниц |
+| Build | проходит, 13 страниц |
 
 ## Интерактив
 
