@@ -263,7 +263,7 @@ export const pages: SitePage[] = [
     route: '/library.html',
     status: 'review',
     note: 'Собрано 3188 px; journal-шаблоны не начаты.',
-    height: '3 188 px')
+    height: '3 188 px',
     blocks: [
       { id: 'library-hero', title: 'Library hero', does: 'Первый экран библиотеки.', task: 'Собрать.', status: 'review' },
       { id: 'library-book', title: 'Library book', does: 'Книга Syntonia.', task: 'Собрать.', status: 'review' },
