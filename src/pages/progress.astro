@@ -149,15 +149,32 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         article.append(node('p', 'card__desc', card.description));
       }
 
+      const history = Array.isArray(card.history) ? card.history : [];
+      const last = history[history.length - 1];
+      const waiting =
+        card.column === 'progress' &&
+        last?.action === 'move' &&
+        String(last?.note ?? '').includes('progress') &&
+        !history.some(
+          (entry) =>
+            entry.action === 'update' &&
+            String(entry.at) >= String(last.at),
+        );
+      const owner =
+        card.column === 'review'
+          ? 'ждёт приёмки'
+          : waiting
+            ? 'ожидает исполнителя'
+            : card.assignee === 'human'
+              ? 'человек'
+              : 'агент';
+
       const meta = node('div', 'card__meta');
       meta.append(
-        node('span', '', card.assignee === 'human' ? 'человек' : 'агент'),
+        node('span', waiting ? 'is-waiting' : '', owner),
         node('span', '', `обновлено ${time(card.updatedAt)}`),
       );
       article.append(meta);
-
-      const history = Array.isArray(card.history) ? card.history : [];
-      const last = history[history.length - 1];
       if (last) {
         article.append(
           node('p', 'card__event', `${last.action}${last.note ? ` · ${last.note}` : ''}`),
@@ -649,6 +666,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     font-family: var(--font-body);
     font-size: 11px;
     line-height: 16px;
+  }
+
+  .progress .card__meta .is-waiting {
+    color: #8a6a1f;
   }
 
   .progress .card__event {
