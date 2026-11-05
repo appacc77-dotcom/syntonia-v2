@@ -5,8 +5,8 @@
 | Home | 10548 | 18010 | done | reports/blocks/home.md |
 | Method | 2737 | 3280 | review | reports/layout/method.md |
 | Masters | 3886 | 6291 | review | reports/layout/masters.md |
-| Practice | 9291 (план) | — | progress | reports/layout/practice.md |
-| Library | 3188 (план) | — | progress | reports/layout/library.md |
+| Practice | 9292 | 14459 | review | reports/layout/practice.md |
+| Library | 3188 | 5126 | review | reports/layout/library.md |
 | Booking | 2416 (план) | — | progress | reports/layout/booking.md |
 | Quiz | 1218 (план) | — | progress | reports/layout/quiz.md |
 | Offer | 991 | 1576 | review | reports/layout/legal.md |
