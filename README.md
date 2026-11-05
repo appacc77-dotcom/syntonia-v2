@@ -1,7 +1,8 @@
 # Syntonia v2 — Astro spike
 
-Готовы главная (15 блоков) и страница «Метод». Стек: Astro + обычный CSS +
-данные из Figma, без React, Tailwind и CMS.
+Готовы главная (15 блоков), «Метод», «Мастера», legal/404. В работе
+«Пространство практики», «Библиотека», «Запись» и Quiz. Стек: Astro +
+обычный CSS + данные из Figma, без React, Tailwind и CMS.
 
 ## Запуск
 
@@ -19,11 +20,14 @@ src/components/
   SiteHeader, Hero, BannerFounder, Pain, Method, Quiz,
   AboutFounder, Process, StageCard, Entry, Formats, Voices,
   Library, AirPhoto, Faq, Footer, Button, TextLink,
-  MethodHero, MethodPrinciples, MethodCta
-src/data/formats.ts, voices.ts
-src/layouts/BaseLayout.astro
-src/pages/index.astro, method.astro, structure.astro
+  MethodHero, MethodPrinciples, MethodCta,
+  MastersHero, MastersTeam, MastersMore, MasterCard, MasterPlayer,
+  AudioButton, LinkCard, LegalPage
 src/data/formats.ts, voices.ts, structure.ts
+src/layouts/BaseLayout.astro
+src/pages/index.astro, method.astro, masters.astro,
+  offer.astro, privacy.astro, consent.astro, 404.astro,
+  progress.astro, structure.astro
 src/styles/tokens.css, base.css
 public/fonts, public/img, public/icons
 design/export/home/     выгрузка Figma и кроп главной
@@ -96,9 +100,21 @@ reports/layout/         отчёты по карточкам
 | footer | 361 | 2376 |
 | **итого** | **2737** | |
 
-Пиксельная сверка: hero 0,86 (1,75 %), about 2,26 (4,95 %), cta 3,39
-(4,64 %), footer 8,01 (3,90 %); **вся страница 2,82 (3,82 %)**.
+Пиксельная сверка: hero 0,86 (1,75 %), about 2,26 (4,95 %), cta 3,32
+(4,64 %), footer 8,01 (3,90 %); **вся страница 2,85 (3,86 %)**. Это
+регрессия к старому QA-рендеру, не к Figma.
 На 768 — 2849, на 390 — 3280; переполнения нет, консоль 0.
+
+## Страница «Мастера»
+
+`/masters.html`, 1440×3886: founder hero 839, team 2066, more 620, footer 361;
+на 390 — 6291. Секции собраны по extracted; 1:1 Figma-рендера нет, поэтому
+пиксельная Δ не заявляется. Аудио — честные заглушки.
+
+## Legal / 404
+
+`/offer.html`, `/privacy.html`, `/consent.html` — текстовые заглушки 1440×991 /
+390×1576; `/404.html` отдаёт 404 и ведёт на главную/структуру. Figma нет.
 
 ## Каркас
 
@@ -126,7 +142,7 @@ reports/layout/         отчёты по карточкам
 | Footer | 361; контент 1152 |
 | 1440 / 768 / 390 | переполнения нет |
 | Консоль | 0 ошибок |
-| Build | проходит |
+| Build | проходит, 9 страниц |
 
 ## Интерактив
 
