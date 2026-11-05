@@ -7,8 +7,8 @@
 | Masters | 3886 | 6291 | review | reports/layout/masters.md |
 | Practice | 9292 | 14459 | review | reports/layout/practice.md |
 | Library | 3188 | 5126 | review | reports/layout/library.md |
-| Booking | 2416 (план) | — | progress | reports/layout/booking.md |
-| Quiz | 1218 (план) | — | progress | reports/layout/quiz.md |
+| Booking | 2416 | 4055 | review | reports/layout/booking.md |
+| Quiz | 1218 | 2006 | review | reports/layout/quiz.md |
 | Offer | 991 | 1576 | review | reports/layout/legal.md |
 | Privacy | 991 | 1576 | review | reports/layout/legal.md |
 | Consent | 991 | 1576 | review | reports/layout/legal.md |
