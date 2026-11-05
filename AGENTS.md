@@ -85,6 +85,11 @@ Tailwind и CMS. Задача текущего этапа — собрать в�
   статус `review`, не `done`;
 - карточку в `done` переводит приёмка, не автор.
 
+Доска — `../agent-system/board.json`, страница **Канбан** в DSH. Перед работой:
+`kanban_board { next: true }`; закончил — `kanban_card { action: "move", cardId,
+column: "review" }`. `board.json` руками не править: плагин проверяет DoR и
+ведёт историю. Как это устроено — [`../agent-system/KANBAN.md`](../agent-system/KANBAN.md).
+
 ## 5. Проверки
 
 Сейчас в проекте есть:

@@ -1,7 +1,7 @@
 # Syntonia v2 — Astro spike
 
-Главная собрана полностью: 15 блоков — шапка, 13 секций и подвал.
-Стек: Astro + обычный CSS + данные из Figma, без React, Tailwind и CMS.
+Готовы главная (15 блоков) и страница «Метод». Стек: Astro + обычный CSS +
+данные из Figma, без React, Tailwind и CMS.
 
 ## Запуск
 
@@ -18,13 +18,16 @@ npm run preview  # http://127.0.0.1:4322/
 src/components/
   SiteHeader, Hero, BannerFounder, Pain, Method, Quiz,
   AboutFounder, Process, StageCard, Entry, Formats, Voices,
-  Library, AirPhoto, Faq, Footer, Button, TextLink
+  Library, AirPhoto, Faq, Footer, Button, TextLink,
+  MethodHero, MethodPrinciples, MethodCta
 src/data/formats.ts, voices.ts
 src/layouts/BaseLayout.astro
-src/pages/index.astro
+src/pages/index.astro, method.astro
 src/styles/tokens.css, base.css
 public/fonts, public/img, public/icons
 design/export/home/     выгрузка Figma и кроп главной
+design/export/method/   рендер страницы метода
+reports/layout/         отчёты по карточкам
 ```
 
 ## Выгрузка из Figma
@@ -79,6 +82,30 @@ design/export/home/     выгрузка Figma и кроп главной
 Остаток — сглаживание шрифтов и текстуры фонов. Voices — самый большой
 остаток: фон-фактура с оливами и стеклянные карточки; геометрия карточек
 совпадает.
+
+## Страница «Метод»
+
+`/method.html`, Figma `323:422`, источник — `design/export/method/method-1440.png`.
+
+| Блок | Высота | y |
+|---|---:|---:|
+| hero | 800 | 0 |
+| about | 1077 | 800 |
+| cta | 499 | 1877 |
+| footer | 361 | 2376 |
+| **итого** | **2737** | |
+
+Пиксельная сверка: hero 0,86 (1,75 %), about 2,26 (4,95 %), cta 3,39
+(4,64 %), footer 8,01 (3,90 %); **вся страница 2,82 (3,82 %)**.
+На 768 — 2849, на 390 — 3280; переполнения нет, консоль 0.
+
+## Каркас
+
+- бургер открывает меню под шапкой, закрывает Escape, клик вне и клик по ссылке;
+- 8 ссылок + CTA «Личная встреча»;
+- `aria-current="page"` подсвечивает текущий раздел в шапке, dropdown и меню;
+- проверено на 1440/768/390, консоль 0.
+- play-кнопка пока без модального окна — отдельная задача.
 
 ## Что проверено
 
@@ -145,8 +172,8 @@ design/export/home/     выгрузка Figma и кроп главной
 
 ## Что осталось
 
-- остальные страницы: method, practice, library, booking, masters, legal;
-- мобильное меню и play-кнопка без обработчиков;
+- остальные страницы: masters, practice, library, booking, quiz, legal;
+- play-кнопка без модального окна;
 - ссылки соцсетей и Cookie settings — заглушки;
 - оптимизация изображений (`srcset`, WebP);
 - автоматический `spec`/`verify` (замеры пока ручные).
