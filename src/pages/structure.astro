@@ -23,7 +23,10 @@ const globalProgress = globalBlocks.filter((block) => block.status === 'progress
     <header class="top">
       <div class="top__bar">
         <p class="kicker">Внутренняя карта · localhost · не индексируется</p>
-        <a class="back" href="/">← на главную</a>
+        <div class="top__links">
+          <a class="back" href="/progress.html">живой прогресс →</a>
+          <a class="back" href="/">← на главную</a>
+        </div>
       </div>
       <h1>Структура сайта</h1>
       <p class="lead">
@@ -171,6 +174,12 @@ const globalProgress = globalBlocks.filter((block) => block.status === 'progress
     justify-content: space-between;
     gap: 16px;
     margin-bottom: 28px;
+  }
+
+  .top__links {
+    display: flex;
+    align-items: center;
+    gap: 16px;
   }
 
   .kicker,
