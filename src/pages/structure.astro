@@ -1,0 +1,500 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import StructureBlock from '../components/StructureBlock.astro';
+import { globalBlocks, pages, statusLabel } from '../data/structure';
+
+const allPageBlocks = pages.flatMap((page) => page.blocks);
+const pagesDone = pages.filter((page) => page.status === 'done').length;
+const pagesReview = pages.filter((page) => page.status === 'review').length;
+const pagesTodo = pages.filter((page) => page.status === 'todo').length;
+const blocksDone = allPageBlocks.filter((block) => block.status === 'done').length;
+const blocksReview = allPageBlocks.filter((block) => block.status === 'review').length;
+const blocksTodo = allPageBlocks.filter((block) => block.status === 'todo').length;
+---
+
+<BaseLayout
+  title="Структура сайта — Syntonia"
+  description="Внутренняя карта Syntonia v2: страницы, блоки, статусы и превью."
+  noindex
+>
+  <div class="structure">
+    <header class="top">
+      <div class="top__bar">
+        <p class="kicker">Внутренняя карта · localhost · не индексируется</p>
+        <a class="back" href="/">← на главную</a>
+      </div>
+      <h1>Структура сайта</h1>
+      <p class="lead">
+        Что уже собрано, что делает каждый блок и что осталось. У собранных
+        блоков — два превью: эталон и текущая реализация. Ссылки ведут на
+        локальный сервер.
+      </p>
+
+      <div class="stats">
+        <div class="stat">
+          <span class="stat__label">Страницы</span>
+          <strong>{pagesDone} / {pages.length}</strong>
+          <span class="stat__hint">готово · {pagesReview} в работе · {pagesTodo} не начато</span>
+        </div>
+        <div class="stat">
+          <span class="stat__label">Блоки страниц</span>
+          <strong>{blocksDone} / {allPageBlocks.length}</strong>
+          <span class="stat__hint">{blocksReview} на доработке · {blocksTodo} не начато</span>
+        </div>
+        <div class="stat">
+          <span class="stat__label">Сервер</span>
+          <strong>4321</strong>
+          <span class="stat__hint">127.0.0.1:4321</span>
+        </div>
+      </div>
+
+      <div class="legend">
+        <span class="legend__item"><i class="dot dot--done"></i>готово</span>
+        <span class="legend__item"><i class="dot dot--review"></i>собрано, приёмка не пройдена</span>
+        <span class="legend__item"><i class="dot dot--todo"></i>не начато</span>
+      </div>
+    </header>
+
+    <section class="global" aria-labelledby="global-title">
+      <div class="section-head">
+        <div>
+          <p class="section-kicker">На всех страницах</p>
+          <h2 id="global-title">Общие блоки</h2>
+        </div>
+        <span class="section-count">2</span>
+      </div>
+      <div class="blocks blocks--global">
+        {
+          globalBlocks.map((block) => (
+            <StructureBlock block={block} pageRoute="/" />
+          ))
+        }
+      </div>
+    </section>
+
+    {
+      pages.map((page) => (
+        <section
+          class:list={['page-card', `page-card--${page.status}`]}
+          id={page.id}
+          aria-labelledby={`page-${page.id}`}
+        >
+          <div class="page-card__head">
+            <span class="page-card__num" aria-hidden="true">{page.number}</span>
+            <div class="page-card__title">
+              <h2 id={`page-${page.id}`}>{page.title}</h2>
+              <p class="page-card__note">{page.note}</p>
+            </div>
+            <span class:list={['badge', `badge--${page.status}`]}>
+              {statusLabel[page.status]}
+            </span>
+            <a class="page-card__open" href={page.route} target="_blank" rel="noreferrer">
+              Открыть страницу
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+
+          <div class="page-card__meta">
+            <span>Макет: {page.height}</span>
+            <span>Блоков: {page.blocks.length}</span>
+            <span>Маршрут: {page.route}</span>
+          </div>
+
+          <div class="page-card__blocks">
+            {
+              page.blocks.map((block) => (
+                <StructureBlock block={block} pageRoute={page.route} />
+              ))
+            }
+          </div>
+        </section>
+      ))
+    }
+
+    <footer class="foot">
+      <p>
+        Карта собрана из <code>src/data/structure.ts</code> и
+        <code>docs/site-structure.md</code>. Статусы синхронизированы с канбаном
+        вручную; пиксельные хвосты — в README.
+      </p>
+      <p class="foot__warn">
+        Method: эталон — старый рендер, не Figma. Это помечено у каждого блока.
+      </p>
+    </footer>
+  </div>
+</BaseLayout>
+
+<style>
+  .structure {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 40px 24px 72px;
+    color: var(--color-text);
+  }
+
+  .top {
+    padding-bottom: 24px;
+    border-bottom: 1px solid #d8cfbc;
+  }
+
+  .top__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  .kicker,
+  .section-kicker {
+    color: var(--color-accent);
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 18px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .back {
+    color: var(--color-olive);
+    font-family: var(--font-body);
+    font-size: 13px;
+    line-height: 20px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  h1 {
+    color: var(--color-heading);
+    font-family: var(--font-display);
+    font-size: 56px;
+    font-weight: 300;
+    line-height: 64px;
+  }
+
+  .lead {
+    max-width: 820px;
+    margin-top: 12px;
+    color: var(--color-text);
+    font-family: var(--font-body);
+    font-size: 18px;
+    line-height: 30px;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .stat {
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    border: 1px solid #e2d8c3;
+    border-radius: 12px;
+    background: #fffdf8;
+  }
+
+  .stat__label {
+    color: #7a756d;
+    font-family: var(--font-body);
+    font-size: 11px;
+    line-height: 16px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .stat strong {
+    color: var(--color-heading);
+    font-family: var(--font-display);
+    font-size: 30px;
+    font-weight: 300;
+    line-height: 38px;
+  }
+
+  .stat__hint {
+    color: #7a756d;
+    font-family: var(--font-body);
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .legend {
+    margin-top: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 24px;
+  }
+
+  .legend__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: #6b6357;
+    font-family: var(--font-body);
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #7a756d;
+  }
+
+  .dot--done {
+    background: #6f7540;
+  }
+
+  .dot--review {
+    background: #b8870a;
+  }
+
+  .dot--todo {
+    background: #b7b0a3;
+  }
+
+  .global {
+    margin-top: 32px;
+  }
+
+  .section-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 14px;
+  }
+
+  .section-head h2 {
+    color: var(--color-heading);
+    font-family: var(--font-display);
+    font-size: 34px;
+    font-weight: 300;
+    line-height: 42px;
+  }
+
+  .section-count {
+    color: #8b8478;
+    font-family: var(--font-body);
+    font-size: 12px;
+  }
+
+  .blocks {
+    display: grid;
+    gap: 14px;
+  }
+
+  .blocks--global {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .page-card {
+    margin-top: 22px;
+    padding: 20px;
+    border: 1px solid #e2d8c3;
+    border-radius: 18px;
+    background: #fffdf8;
+  }
+
+  .page-card--review {
+    border-color: #d8bd82;
+  }
+
+  .page-card--todo {
+    background: #fdfaf4;
+  }
+
+  .page-card__head {
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr) auto auto;
+    align-items: start;
+    gap: 14px;
+  }
+
+  .page-card__num {
+    color: #b7ad98;
+    font-family: var(--font-quote);
+    font-size: 26px;
+    font-style: italic;
+    line-height: 34px;
+  }
+
+  .page-card__title h2 {
+    color: var(--color-heading);
+    font-family: var(--font-display);
+    font-size: 36px;
+    font-weight: 300;
+    line-height: 42px;
+    overflow-wrap: anywhere;
+  }
+
+  .page-card__note {
+    max-width: 760px;
+    overflow-wrap: anywhere;
+    margin-top: 3px;
+    color: #6b6357;
+    font-family: var(--font-body);
+    font-size: 13px;
+    line-height: 21px;
+  }
+
+  .badge {
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-family: var(--font-body);
+    font-size: 11px;
+    line-height: 18px;
+    white-space: nowrap;
+  }
+
+  .badge--done {
+    background: #e7ead8;
+    color: #51552f;
+  }
+
+  .badge--review {
+    background: #f3e6c9;
+    color: #7a5a13;
+  }
+
+  .badge--todo {
+    background: #ece8df;
+    color: #7a756d;
+  }
+
+  .page-card__open {
+    color: var(--color-olive);
+    font-family: var(--font-body);
+    font-size: 12px;
+    line-height: 20px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    white-space: nowrap;
+  }
+
+  .page-card__meta {
+    margin: 10px 0 14px 66px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+    color: #8b8478;
+    font-family: var(--font-body);
+    font-size: 11px;
+    line-height: 18px;
+  }
+
+  .page-card__blocks {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .page-card--todo .page-card__blocks {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .page-card--todo .page-card__blocks :global(.shots--empty) {
+    min-height: 50px;
+  }
+
+  .foot {
+    margin-top: 32px;
+    padding-top: 18px;
+    border-top: 1px solid #d8cfbc;
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    color: #7a756d;
+    font-family: var(--font-body);
+    font-size: 12px;
+    line-height: 19px;
+  }
+
+  .foot code {
+    color: #5a5a36;
+  }
+
+  .foot__warn {
+    color: #8a6a1f;
+    max-width: 420px;
+  }
+
+  @media (max-width: 1100px) {
+    .page-card__blocks,
+    .page-card--todo .page-card__blocks,
+    .blocks--global {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .page-card__head {
+      grid-template-columns: 44px minmax(0, 1fr);
+    }
+
+    .badge,
+    .page-card__open {
+      justify-self: start;
+    }
+
+    .page-card__meta {
+      margin-left: 58px;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .structure {
+      padding: 24px 16px 56px;
+    }
+
+    h1 {
+      font-size: 40px;
+      line-height: 46px;
+    }
+
+    .lead {
+      font-size: 16px;
+      line-height: 26px;
+    }
+
+    .top__bar {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .stats {
+      grid-template-columns: 1fr;
+    }
+
+    .page-card {
+      padding: 14px;
+      border-radius: 14px;
+    }
+
+    .page-card__title h2 {
+      font-size: 29px;
+      line-height: 35px;
+    }
+
+    .page-card__blocks,
+    .page-card--todo .page-card__blocks,
+    .blocks--global {
+      grid-template-columns: 1fr;
+    }
+
+    .page-card__meta {
+      margin-left: 0;
+    }
+
+    .foot {
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
+</style>

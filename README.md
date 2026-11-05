@@ -22,7 +22,8 @@ src/components/
   MethodHero, MethodPrinciples, MethodCta
 src/data/formats.ts, voices.ts
 src/layouts/BaseLayout.astro
-src/pages/index.astro, method.astro
+src/pages/index.astro, method.astro, structure.astro
+src/data/formats.ts, voices.ts, structure.ts
 src/styles/tokens.css, base.css
 public/fonts, public/img, public/icons
 design/export/home/     выгрузка Figma и кроп главной
@@ -170,8 +171,16 @@ reports/layout/         отчёты по карточкам
 Перед полным скриншотом нужно проскроллить страницу и дождаться
 `document.images`, иначе нижние фото не загружаются и Δ врёт.
 
+## Структура сайта
+
+`/structure.html` — внутренняя карта (noindex): 11 страниц, 45 блоков + 2 общих,
+статусы «готово / на доработке / не начато», что делает каждый блок и что
+осталось. У собранных блоков — два превью: эталон и текущая реализация.
+Ссылки ведут на локальные маршруты. Карточка на доске — `c-34afe664`.
+
 ## Что осталось
 
+- method и каркас — в работе после приёмки RED;
 - остальные страницы: masters, practice, library, booking, quiz, legal;
 - play-кнопка без модального окна;
 - ссылки соцсетей и Cookie settings — заглушки;
