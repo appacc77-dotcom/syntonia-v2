@@ -1,12 +1,18 @@
 ---
 import Button from './Button.astro';
+
+const rawPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
+const normalize = (href: string) =>
+  (href.replace(/\.html$/, '').replace(/\/+$/, '') || '/');
+const isCurrent = (href: string) => normalize(rawPath) === normalize(href);
+const aboutCurrent = isCurrent('/method.html') || isCurrent('/masters.html');
 ---
 
-<header class="site-header">
+<header class="site-header" data-site-header data-figma-node="167:641">
   <div class="site-header__inner">
     <nav class="nav" aria-label="Основная навигация">
       <details class="nav__dropdown">
-        <summary class="nav__link nav__summary">
+        <summary class:list={['nav__link', 'nav__summary', { 'is-current': aboutCurrent }]}>
           О проекте
           <img
             class="nav__chevron"
@@ -17,12 +23,12 @@ import Button from './Button.astro';
           />
         </summary>
         <ul class="nav__menu">
-          <li><a href="/method.html">Метод Syntonia</a></li>
-          <li><a href="/masters.html">Мастера</a></li>
+          <li><a href="/method.html" aria-current={isCurrent('/method.html') ? 'page' : undefined}>Метод Syntonia</a></li>
+          <li><a href="/masters.html" aria-current={isCurrent('/masters.html') ? 'page' : undefined}>Мастера</a></li>
         </ul>
       </details>
-      <a class="nav__link" href="/quiz.html">Понять себя</a>
-      <a class="nav__link" href="/practice.html">Пространство практики</a>
+      <a class="nav__link" href="/quiz.html" aria-current={isCurrent('/quiz.html') ? 'page' : undefined}>Понять себя</a>
+      <a class="nav__link" href="/practice.html" aria-current={isCurrent('/practice.html') ? 'page' : undefined}>Пространство практики</a>
     </nav>
 
     <a class="logo" href="/index.html" aria-label="Syntonia — на главную">
@@ -53,12 +59,88 @@ import Button from './Button.astro';
         aria-label="Открыть меню"
         aria-expanded="false"
         aria-controls="mobile-menu"
+        data-menu-toggle
       >
         <span></span><span></span><span></span>
       </button>
     </div>
   </div>
+
+  <nav class="mobile-menu" id="mobile-menu" aria-label="Меню" hidden data-mobile-menu>
+    <ul class="mobile-menu__list">
+      <li>
+        <a class="mobile-menu__link" href="/method.html" aria-current={isCurrent('/method.html') ? 'page' : undefined}>
+          Метод Syntonia
+        </a>
+      </li>
+      <li>
+        <a class="mobile-menu__link" href="/masters.html" aria-current={isCurrent('/masters.html') ? 'page' : undefined}>
+          Мастера
+        </a>
+      </li>
+      <li>
+        <a class="mobile-menu__link" href="/quiz.html" aria-current={isCurrent('/quiz.html') ? 'page' : undefined}>
+          Понять себя
+        </a>
+      </li>
+      <li>
+        <a class="mobile-menu__link" href="/practice.html" aria-current={isCurrent('/practice.html') ? 'page' : undefined}>
+          Пространство практики
+        </a>
+      </li>
+      <li>
+        <a class="mobile-menu__link" href="/library.html" aria-current={isCurrent('/library.html') ? 'page' : undefined}>
+          Библиотека
+        </a>
+      </li>
+      <li>
+        <a class="mobile-menu__link" href="/index.html#voices">Отзывы</a>
+      </li>
+      <li>
+        <a class="mobile-menu__link" href="/index.html#faq">Вопросы и ответы</a>
+      </li>
+    </ul>
+    <a class="mobile-menu__cta" href="/booking.html">
+      Личная встреча
+      <img src="/icons/icon-arrow.svg" alt="" width="14" height="14" />
+    </a>
+  </nav>
 </header>
+
+<script>
+  const header = document.querySelector('[data-site-header]');
+  if (header) {
+    const toggle = header.querySelector('[data-menu-toggle]');
+    const menu = header.querySelector('[data-mobile-menu]');
+
+    const setOpen = (open) => {
+      if (!menu || !toggle) return;
+      menu.hidden = !open;
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Закрыть меню' : 'Открыть меню');
+      toggle.classList.toggle('is-open', open);
+      header.classList.toggle('is-menu-open', open);
+    };
+
+    toggle?.addEventListener('click', () => {
+      if (!menu) return;
+      setOpen(menu.hidden);
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') setOpen(false);
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!menu || menu.hidden) return;
+      if (!header.contains(event.target)) setOpen(false);
+    });
+
+    menu?.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => setOpen(false));
+    });
+  }
+</script>
 
 <style>
   .site-header {
@@ -201,6 +283,93 @@ import Button from './Button.astro';
     height: 3px;
     border-radius: 4px;
     background: var(--color-white);
+  }
+
+  .nav__link[aria-current="page"],
+  .nav__summary.is-current {
+    color: #e4d3a6;
+  }
+
+  .mobile-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    width: min(1424px, calc(100% - 16px));
+    max-height: calc(100vh - 120px);
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    overflow: auto;
+    border-radius: 16px;
+    background: rgba(58, 51, 35, 0.98);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
+    transform: translateX(-50%);
+    pointer-events: auto;
+  }
+
+  .mobile-menu[hidden] {
+    display: none;
+  }
+
+  .mobile-menu__list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .mobile-menu__link {
+    display: block;
+    padding: 10px 14px;
+    border-radius: 8px;
+    color: var(--color-white);
+    font-family: var(--font-body);
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 34px;
+  }
+
+  .mobile-menu__link:hover,
+  .mobile-menu__link[aria-current="page"] {
+    background: rgba(255, 255, 255, 0.08);
+    color: #e4d3a6;
+  }
+
+  .mobile-menu__cta {
+    margin-top: 8px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 8px;
+    background: var(--color-olive);
+    color: var(--color-white);
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 29px;
+  }
+
+  .mobile-menu__cta img {
+    width: 14px;
+    height: 14px;
+  }
+
+  .burger.is-open span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+
+  .burger.is-open span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .burger.is-open span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
+  .burger span {
+    transition:
+      transform 0.2s ease,
+      opacity 0.2s ease;
   }
 
   @media (max-width: 1320px) {
