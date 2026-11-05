@@ -5,12 +5,15 @@ import { globalBlocks, pages, statusLabel } from '../data/structure';
 
 const allPageBlocks = pages.flatMap((page) => page.blocks);
 const pagesDone = pages.filter((page) => page.status === 'done').length;
+const pagesReview = pages.filter((page) => page.status === 'review').length;
 const pagesProgress = pages.filter((page) => page.status === 'progress').length;
 const pagesTodo = pages.filter((page) => page.status === 'todo').length;
 const blocksDone = allPageBlocks.filter((block) => block.status === 'done').length;
+const blocksReview = allPageBlocks.filter((block) => block.status === 'review').length;
 const blocksProgress = allPageBlocks.filter((block) => block.status === 'progress').length;
 const blocksTodo = allPageBlocks.filter((block) => block.status === 'todo').length;
 const globalDone = globalBlocks.filter((block) => block.status === 'done').length;
+const globalReview = globalBlocks.filter((block) => block.status === 'review').length;
 const globalProgress = globalBlocks.filter((block) => block.status === 'progress').length;
 ---
 
@@ -39,17 +42,17 @@ const globalProgress = globalBlocks.filter((block) => block.status === 'progress
         <div class="stat">
           <span class="stat__label">Страницы</span>
           <strong>{pagesDone} / {pages.length}</strong>
-          <span class="stat__hint">готово · {pagesProgress} в работе · {pagesTodo} не начато</span>
+          <span class="stat__hint">готово · {pagesReview} на приёмке · {pagesTodo} не начато</span>
         </div>
         <div class="stat">
           <span class="stat__label">Блоки страниц</span>
           <strong>{blocksDone} / {allPageBlocks.length}</strong>
-          <span class="stat__hint">{blocksProgress} в работе · {blocksTodo} не начато</span>
+          <span class="stat__hint">{blocksReview} на приёмке · {blocksTodo} не начато</span>
         </div>
         <div class="stat">
           <span class="stat__label">Общие блоки</span>
           <strong>{globalDone} / {globalBlocks.length}</strong>
-          <span class="stat__hint">{globalProgress} в работе · {globalBlocks.length - globalDone - globalProgress} не начато</span>
+          <span class="stat__hint">{globalReview} на приёмке · {globalBlocks.length - globalDone - globalReview} не начато</span>
         </div>
         <div class="stat">
           <span class="stat__label">Сервер</span>
@@ -60,6 +63,7 @@ const globalProgress = globalBlocks.filter((block) => block.status === 'progress
 
       <div class="legend">
         <span class="legend__item"><i class="dot dot--done"></i>готово</span>
+        <span class="legend__item"><i class="dot dot--review"></i>на приёмке</span>
         <span class="legend__item"><i class="dot dot--progress"></i>в работе</span>
         <span class="legend__item"><i class="dot dot--todo"></i>не начато</span>
       </div>
@@ -288,7 +292,8 @@ const globalProgress = globalBlocks.filter((block) => block.status === 'progress
     background: #6f7540;
   }
 
-  .dot--progress {
+  .dot--progress,
+  .dot--review {
     background: #b8870a;
   }
 
@@ -363,7 +368,8 @@ const globalProgress = globalBlocks.filter((block) => block.status === 'progress
     background: #fffdf8;
   }
 
-  .page-card--progress {
+  .page-card--progress,
+  .page-card--review {
     border-color: #d8bd82;
   }
 
@@ -419,7 +425,8 @@ const globalProgress = globalBlocks.filter((block) => block.status === 'progress
     color: #51552f;
   }
 
-  .badge--progress {
+  .badge--progress,
+  .badge--review {
     background: #f3e6c9;
     color: #7a5a13;
   }
