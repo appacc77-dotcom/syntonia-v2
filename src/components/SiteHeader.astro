@@ -94,10 +94,10 @@ const aboutCurrent = isCurrent('/method.html') || isCurrent('/masters.html');
         </a>
       </li>
       <li>
-        <a class="mobile-menu__link" href="/index.html#voices">Отзывы</a>
+        <a class="mobile-menu__link" href="/index.html#voices-title">Отзывы</a>
       </li>
       <li>
-        <a class="mobile-menu__link" href="/index.html#faq">Вопросы и ответы</a>
+        <a class="mobile-menu__link" href="/index.html#faq-title">Вопросы и ответы</a>
       </li>
     </ul>
     <a class="mobile-menu__cta" href="/booking.html">
@@ -113,32 +113,80 @@ const aboutCurrent = isCurrent('/method.html') || isCurrent('/masters.html');
     const toggle = header.querySelector('[data-menu-toggle]');
     const menu = header.querySelector('[data-mobile-menu]');
 
-    const setOpen = (open) => {
-      if (!menu || !toggle) return;
-      menu.hidden = !open;
-      toggle.setAttribute('aria-expanded', String(open));
-      toggle.setAttribute('aria-label', open ? 'Закрыть меню' : 'Открыть меню');
-      toggle.classList.toggle('is-open', open);
-      header.classList.toggle('is-menu-open', open);
-    };
+    if (toggle && menu) {
+      const focusableSelector =
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+      const getFocusables = () =>
+        Array.from(menu.querySelectorAll(focusableSelector)).filter(
+          (element) => element.getClientRects().length > 0,
+        );
 
-    toggle?.addEventListener('click', () => {
-      if (!menu) return;
-      setOpen(menu.hidden);
-    });
+      const setOpen = (open, { restoreFocus = false } = {}) => {
+        const wasOpen = !menu.hidden;
+        menu.hidden = !open;
+        toggle.setAttribute('aria-expanded', String(open));
+        toggle.setAttribute('aria-label', open ? 'Закрыть меню' : 'Открыть меню');
+        toggle.classList.toggle('is-open', open);
+        header.classList.toggle('is-menu-open', open);
 
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') setOpen(false);
-    });
+        if (open) {
+          getFocusables()[0]?.focus({ preventScroll: true });
+        } else if (wasOpen && restoreFocus) {
+          toggle.focus({ preventScroll: true });
+        }
+      };
 
-    document.addEventListener('click', (event) => {
-      if (!menu || menu.hidden) return;
-      if (!header.contains(event.target)) setOpen(false);
-    });
+      toggle.addEventListener('click', () => {
+        const open = menu.hidden;
+        setOpen(open, { restoreFocus: !open });
+      });
 
-    menu?.querySelectorAll('a').forEach((link) => {
-      link.addEventListener('click', () => setOpen(false));
-    });
+      document.addEventListener('keydown', (event) => {
+        if (menu.hidden) return;
+
+        if (event.key === 'Escape') {
+          event.preventDefault();
+          setOpen(false, { restoreFocus: true });
+          return;
+        }
+
+        if (event.key !== 'Tab') return;
+
+        const focusables = getFocusables();
+        if (!focusables.length) return;
+
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        const active = document.activeElement;
+
+        if (!menu.contains(active)) {
+          event.preventDefault();
+          (event.shiftKey ? last : first).focus();
+          return;
+        }
+
+        if (event.shiftKey && active === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && active === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      });
+
+      document.addEventListener('click', (event) => {
+        if (menu.hidden) return;
+        if (menu.contains(event.target) || toggle.contains(event.target)) return;
+        setOpen(false, { restoreFocus: true });
+      });
+
+      menu.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => {
+          setOpen(false, { restoreFocus: true });
+          window.setTimeout(() => toggle.focus({ preventScroll: true }), 0);
+        });
+      });
+    }
   }
 </script>
 
@@ -270,16 +318,21 @@ const aboutCurrent = isCurrent('/method.html') || isCurrent('/masters.html');
   }
 
   .burger {
+    --burger-line-width: 38px;
+    --burger-line-gap: 8px;
+    width: 44px;
+    height: 44px;
+    margin-inline-end: calc((var(--burger-line-width) - 44px) / 2);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    width: 38px;
-    height: 25px;
+    align-items: center;
+    justify-content: center;
+    gap: var(--burger-line-gap);
   }
 
   .burger span {
     display: block;
-    width: 38px;
+    width: var(--burger-line-width);
     height: 3px;
     border-radius: 4px;
     background: var(--color-white);
@@ -355,7 +408,7 @@ const aboutCurrent = isCurrent('/method.html') || isCurrent('/masters.html');
   }
 
   .burger.is-open span:nth-child(1) {
-    transform: translateY(8px) rotate(45deg);
+    transform: translateY(calc(3px + var(--burger-line-gap))) rotate(45deg);
   }
 
   .burger.is-open span:nth-child(2) {
@@ -363,7 +416,7 @@ const aboutCurrent = isCurrent('/method.html') || isCurrent('/masters.html');
   }
 
   .burger.is-open span:nth-child(3) {
-    transform: translateY(-8px) rotate(-45deg);
+    transform: translateY(calc(-3px - var(--burger-line-gap))) rotate(-45deg);
   }
 
   .burger span {
@@ -407,12 +460,8 @@ const aboutCurrent = isCurrent('/method.html') || isCurrent('/masters.html');
     }
 
     .burger {
-      width: 32px;
-      height: 21px;
-    }
-
-    .burger span {
-      width: 32px;
+      --burger-line-width: 32px;
+      --burger-line-gap: 6px;
     }
   }
 </style>
