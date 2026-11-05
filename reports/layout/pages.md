@@ -2,7 +2,7 @@
 
 | Страница | 1440 | 390 | Статус | Отчёт |
 |---|---:|---:|---|---|
-| Home | 10548 | 18010 | done | reports/blocks/home.md |
+| Home | 10548 | 11937 | done | reports/blocks/home.md |
 | Method | 2737 | 3280 | review | reports/layout/method.md |
 | Masters | 3886 | 6291 | review | reports/layout/masters.md |
 | Practice | 9292 | 14459 | review | reports/layout/practice.md |
