@@ -23,11 +23,12 @@ import Button from './Button.astro';
       Ответьте на&nbsp;несколько вопросов, чтобы лучше понять своё текущее
       состояние и&nbsp;то, что стоит за&nbsp;ним.
     </p>
-    <Button
-      href="/quiz.html"
-      label="Увидеть, из чего строится ваша реальность"
-      class="library-hero__cta"
-    />
+    <div class="library-hero__action">
+      <Button
+        href="/quiz.html"
+        label="Увидеть, из чего строится ваша реальность"
+      />
+    </div>
   </div>
 </section>
 
@@ -92,24 +93,26 @@ import Button from './Button.astro';
     line-height: 28px;
   }
 
-  .library-hero__cta {
+  .library-hero__action {
     margin-top: 28px;
-  }
-
-  .library-hero__cta :global(.btn) {
     max-width: 100%;
   }
 
-  .library-hero__cta :global(.btn__label) {
-    white-space: normal;
-    text-align: left;
+  .library-hero__action :global(.btn) {
+    max-width: 100%;
   }
 
   @media (max-width: 767px) {
-    .library-hero__cta :global(.btn) {
+    .library-hero__action :global(.btn) {
       height: auto;
       min-height: 45px;
       padding-block: 8px;
+      white-space: normal;
+    }
+
+    .library-hero__action :global(.btn__label) {
+      white-space: normal;
+      text-align: left;
     }
   }
 
@@ -133,7 +136,7 @@ import Button from './Button.astro';
       line-height: 30px;
     }
 
-    .library-hero__cta {
+    .library-hero__action {
       margin-top: 32px;
     }
   }
@@ -160,7 +163,7 @@ import Button from './Button.astro';
       line-height: 34px;
     }
 
-    .library-hero__cta {
+    .library-hero__action {
       margin-top: 32px;
     }
   }

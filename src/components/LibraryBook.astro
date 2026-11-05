@@ -216,5 +216,12 @@ import Button from './Button.astro';
     .library-book__action {
       margin-top: 32px;
     }
+
+    /* В макете подпись кнопки — 20/29 (кроп book), при этом узел текста
+       помечен 17 px: берём размер с кропа, иначе кнопка 196 вместо 221. */
+    .library-book__action :global(.btn) {
+      font-size: 20px;
+      line-height: 29px;
+    }
   }
 </style>
