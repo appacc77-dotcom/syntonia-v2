@@ -101,7 +101,7 @@ const legal = [
   .footer {
     position: relative;
     height: 361px;
-    padding: 64px 24px 24px;
+    padding: 64px 24px 20px;
     overflow: hidden;
     background: #3a3323;
     color: #f3ede0;
@@ -182,7 +182,11 @@ const legal = [
   .footer__list {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 4px;
+  }
+
+  .footer__list li {
+    line-height: 20px;
   }
 
   .footer__link {
@@ -204,6 +208,7 @@ const legal = [
   }
 
   .footer__bottom {
+    line-height: 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;

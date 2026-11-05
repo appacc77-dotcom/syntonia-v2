@@ -33,9 +33,10 @@ const globalProgress = globalBlocks.filter((block) => block.status === 'progress
       </div>
       <h1>Структура сайта</h1>
       <p class="lead">
-        Что уже собрано, что делает каждый блок и что осталось. У собранных
-        блоков — два превью: эталон и текущая реализация. Ссылки ведут на
-        локальный сервер.
+        Что уже собрано, что делает каждый блок и что осталось. Там, где есть
+        Figma-эталон, — два превью; у новых страниц без рендера — снимок
+        страницы и честная заглушка вместо поблочных скриншотов. Ссылки ведут
+        на локальный сервер.
       </p>
 
       <div class="stats">
@@ -123,6 +124,12 @@ const globalProgress = globalBlocks.filter((block) => block.status === 'progress
               <span aria-hidden="true">→</span>
             </a>
           </div>
+
+          {page.preview && (
+            <a class="page-card__preview" href={page.route} target="_blank" rel="noreferrer">
+              <img src={page.preview} alt={`Снимок страницы «${page.title}»`} loading="lazy" />
+            </a>
+          )}
 
           <div class="page-card__meta">
             <span>Макет: {page.height}</span>
@@ -446,6 +453,23 @@ const globalProgress = globalBlocks.filter((block) => block.status === 'progress
     white-space: nowrap;
   }
 
+  .page-card__preview {
+    display: block;
+    width: min(100%, 640px);
+    margin: 0 24px 14px;
+    overflow: hidden;
+    border: 1px solid #e2d8c3;
+    border-radius: 10px;
+  }
+
+  .page-card__preview img {
+    display: block;
+    width: 100%;
+    max-height: 220px;
+    object-fit: cover;
+    object-position: 50% 0;
+  }
+
   .page-card__meta {
     margin: 10px 0 14px 66px;
     display: flex;
@@ -513,7 +537,24 @@ const globalProgress = globalBlocks.filter((block) => block.status === 'progress
       justify-self: start;
     }
 
-    .page-card__meta {
+    .page-card__preview {
+    display: block;
+    width: min(100%, 640px);
+    margin: 0 24px 14px;
+    overflow: hidden;
+    border: 1px solid #e2d8c3;
+    border-radius: 10px;
+  }
+
+  .page-card__preview img {
+    display: block;
+    width: 100%;
+    max-height: 220px;
+    object-fit: cover;
+    object-position: 50% 0;
+  }
+
+  .page-card__meta {
       margin-left: 58px;
     }
   }
@@ -560,7 +601,24 @@ const globalProgress = globalBlocks.filter((block) => block.status === 'progress
       grid-template-columns: 1fr;
     }
 
-    .page-card__meta {
+    .page-card__preview {
+    display: block;
+    width: min(100%, 640px);
+    margin: 0 24px 14px;
+    overflow: hidden;
+    border: 1px solid #e2d8c3;
+    border-radius: 10px;
+  }
+
+  .page-card__preview img {
+    display: block;
+    width: 100%;
+    max-height: 220px;
+    object-fit: cover;
+    object-position: 50% 0;
+  }
+
+  .page-card__meta {
       margin-left: 0;
     }
 

@@ -37,6 +37,7 @@ const initial = bookingFormats[0];
               bookingFormats.map((format, index) => (
                 <label
                   class="format-option"
+                  id={index === 0 ? 'entry' : undefined}
                   data-figma-node={optionNodes[index]}
                 >
                   <input
@@ -114,7 +115,7 @@ const initial = bookingFormats[0];
 
       <span class="booking__divider" aria-hidden="true"></span>
 
-      <div class="booking__panel" data-figma-node="383:824">
+      <div class="booking__panel" id="question" data-figma-node="383:824">
         <div class="booking-details" data-figma-node="804:349">
           <p class="booking-details__label">Выбранный формат</p>
           <p class="booking-details__title">
