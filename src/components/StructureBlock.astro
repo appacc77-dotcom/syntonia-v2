@@ -7,12 +7,18 @@ interface Props {
   pageRoute: string;
   anchorId: string;
   cardLabel: string;
+  liveCardTitle?: string;
 }
 
-const { block, pageRoute, anchorId, cardLabel } = Astro.props;
+const { block, pageRoute, anchorId, cardLabel, liveCardTitle } = Astro.props;
 ---
 
-<article class:list={['block', `block--${block.status}`]} id={anchorId}>
+<article
+  class:list={['block', `block--${block.status}`]}
+  id={anchorId}
+  data-status={block.status}
+  data-live-card={liveCardTitle}
+>
   <div class="block__body">
     <div class="block__top">
       <span class="block__status">{statusLabel[block.status]}</span>

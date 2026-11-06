@@ -27,6 +27,7 @@ const globalProgress = globalBlocks.filter((block) => block.status === 'progress
       <div class="top__bar">
         <p class="kicker">Внутренняя карта · localhost · не индексируется</p>
         <div class="top__links">
+          <span class="live" data-structure-live><i></i><span>live</span></span>
           <a class="back" href="/progress.html">живой прогресс →</a>
           <a class="back" href="/">← на главную</a>
         </div>
@@ -40,17 +41,17 @@ const globalProgress = globalBlocks.filter((block) => block.status === 'progress
       </p>
 
       <div class="stats">
-        <div class="stat">
+        <div class="stat" data-stat="pages">
           <span class="stat__label">Страницы</span>
           <strong>{pagesDone} / {pages.length}</strong>
           <span class="stat__hint">готово · {pagesReview} на приёмке · {pagesTodo} не начато</span>
         </div>
-        <div class="stat">
+        <div class="stat" data-stat="blocks">
           <span class="stat__label">Блоки страниц</span>
           <strong>{blocksDone} / {allPageBlocks.length}</strong>
           <span class="stat__hint">{blocksReview} на приёмке · {blocksTodo} не начато</span>
         </div>
-        <div class="stat">
+        <div class="stat" data-stat="global">
           <span class="stat__label">Общие блоки</span>
           <strong>{globalDone} / {globalBlocks.length}</strong>
           <span class="stat__hint">{globalReview} на приёмке · {globalBlocks.length - globalDone - globalReview} не начато</span>
@@ -97,6 +98,7 @@ const globalProgress = globalBlocks.filter((block) => block.status === 'progress
               pageRoute="/"
               anchorId={`block-${block.id}`}
               cardLabel={`Shared · ${block.title}`}
+              liveCardTitle={`Shared · ${block.title}`}
             />
           ))
         }
@@ -108,6 +110,8 @@ const globalProgress = globalBlocks.filter((block) => block.status === 'progress
         <section
           class:list={['page-card', `page-card--${page.status}`]}
           id={page.id}
+          data-page-id={page.id}
+          data-status={page.status}
           aria-labelledby={`page-${page.id}`}
         >
           <div class="page-card__head">
@@ -145,6 +149,7 @@ const globalProgress = globalBlocks.filter((block) => block.status === 'progress
                   pageRoute={page.route}
                   anchorId={`block-${page.id}-${block.id}`}
                   cardLabel={`${page.id === 'home' ? 'Home' : page.id === 'method' ? 'Method' : 'Page'} · ${page.id === 'home' || page.id === 'method' ? block.title : page.title}`}
+                  liveCardTitle={page.id === 'home' ? `Home · ${block.title}` : page.id === 'method' ? `Method · ${block.title}` : undefined}
                 />
               ))
             }
@@ -166,6 +171,119 @@ const globalProgress = globalBlocks.filter((block) => block.status === 'progress
   </div>
 </BaseLayout>
 
+
+<script>
+  const structureStatus = (column) =>
+    column === 'done'
+      ? 'done'
+      : column === 'review'
+        ? 'review'
+        : column === 'progress'
+          ? 'progress'
+          : 'todo';
+  const structureLabel = {
+    done: 'готово',
+    review: 'на приёмке',
+    progress: 'в работе',
+    todo: 'не начато',
+  };
+  const pageCards = {
+    masters: 'Page · Мастера',
+    practice: 'Page · Пространство практики',
+    library: 'Page · Библиотека',
+    booking: 'Page · Запись',
+    quiz: 'Page · Quiz',
+    offer: 'Page · Публичная оферта',
+    privacy: 'Page · Политика конфиденциальности',
+    consent: 'Page · Согласие на обработку',
+    '404': 'Page · 404',
+  };
+
+  const setStatus = (element, status) => {
+    if (!element || element.dataset.status === status) return;
+    element.dataset.status = status;
+    const classes = [...element.classList].filter((name) => !name.startsWith('block--') && !name.startsWith('page-card--'));
+    element.className = [...classes, `${element.classList.contains('block') ? 'block' : 'page-card'}--${status}`].join(' ');
+    const badge = element.querySelector('.block__status, .badge');
+    if (badge) {
+      badge.textContent = structureLabel[status];
+      if (badge.classList.contains('badge')) {
+        badge.className = `badge badge--${status}`;
+      }
+    }
+  };
+
+  const renderStats = () => {
+    const pageDoms = [...document.querySelectorAll('[data-page-id]')];
+    const blockDoms = [...document.querySelectorAll('.block[data-status]')];
+    const globalDoms = [...document.querySelectorAll('.global .block[data-status]')];
+    const counts = (list) => list.reduce((acc, el) => {
+      acc[el.dataset.status] = (acc[el.dataset.status] || 0) + 1;
+      return acc;
+    }, {});
+    const pageCounts = counts(pageDoms);
+    const blockCounts = counts(blockDoms.filter((el) => !el.closest('.global')));
+    const globalCounts = counts(globalDoms);
+    const apply = (name, list, data) => {
+      const root = document.querySelector(`[data-stat="${name}"]`);
+      if (!root) return;
+      const strong = root.querySelector('strong');
+      const hint = root.querySelector('.stat__hint');
+      if (strong) strong.textContent = `${data.done || 0} / ${list.length}`;
+      if (hint) {
+        const parts = [];
+        if (data.review) parts.push(`${data.review} на приёмке`);
+        if (data.progress) parts.push(`${data.progress} в работе`);
+        if (data.todo) parts.push(`${data.todo} не начато`);
+        hint.textContent = parts.join(' · ') || 'все готовы';
+      }
+    };
+    apply('pages', pageDoms, pageCounts);
+    apply('blocks', blockDoms.filter((el) => !el.closest('.global')), blockCounts);
+    apply('global', globalDoms, globalCounts);
+  };
+
+  const syncStructure = async () => {
+    const indicator = document.querySelector('[data-structure-live]');
+    try {
+      const response = await fetch(`/kanban/api/board?ts=${Date.now()}`, { cache: 'no-store' });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const payload = await response.json();
+      const cards = payload?.board?.cards;
+      if (!Array.isArray(cards)) throw new Error('no cards');
+      const byTitle = new Map(cards.map((card) => [card.title, card.column]));
+
+      document.querySelectorAll('[data-page-id]').forEach((section) => {
+        const id = section.dataset.pageId;
+        const title = pageCards[id];
+        if (title && byTitle.has(title)) setStatus(section, structureStatus(byTitle.get(title)));
+      });
+      document.querySelectorAll('[data-live-card]').forEach((block) => {
+        const title = block.dataset.liveCard;
+        if (title && byTitle.has(title)) setStatus(block, structureStatus(byTitle.get(title)));
+      });
+      const rank = { done: 0, review: 1, progress: 2, todo: 3 };
+      document.querySelectorAll('[data-page-id]').forEach((section) => {
+        if (pageCards[section.dataset.pageId]) return;
+        const statuses = [...section.querySelectorAll('.block[data-status]')].map((block) => block.dataset.status);
+        const worst = statuses.reduce((acc, status) => (rank[status] > rank[acc] ? status : acc), 'done');
+        setStatus(section, worst);
+      });
+      renderStats();
+      indicator?.classList.add('is-live');
+      const text = indicator?.querySelector('span');
+      if (text) text.textContent = 'live';
+    } catch {
+      indicator?.classList.remove('is-live');
+      const text = indicator?.querySelector('span');
+      if (text) text.textContent = 'снимок';
+    }
+  };
+
+  syncStructure();
+  window.setInterval(syncStructure, 2500);
+</script>
+
 <style>
   .structure {
     max-width: 1440px;
@@ -177,6 +295,29 @@ const globalProgress = globalBlocks.filter((block) => block.status === 'progress
   .top {
     padding-bottom: 24px;
     border-bottom: 1px solid #d8cfbc;
+  }
+
+  .live {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #7a756d;
+    font-family: var(--font-body);
+    font-size: 10px;
+    line-height: 18px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .live i {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #b7b0a3;
+  }
+
+  .live.is-live i {
+    background: #6f7540;
   }
 
   .top__bar {
@@ -574,7 +715,30 @@ const globalProgress = globalBlocks.filter((block) => block.status === 'progress
       line-height: 26px;
     }
 
-    .top__bar {
+    .live {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #7a756d;
+    font-family: var(--font-body);
+    font-size: 10px;
+    line-height: 18px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .live i {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #b7b0a3;
+  }
+
+  .live.is-live i {
+    background: #6f7540;
+  }
+
+  .top__bar {
       align-items: flex-start;
       flex-direction: column;
       gap: 8px;
