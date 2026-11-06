@@ -131,7 +131,7 @@ const globalProgress = globalBlocks.filter((block) => block.status === 'progress
 
           {page.preview && (
             <a class="page-card__preview" href={page.route} target="_blank" rel="noreferrer">
-              <img src={page.preview} alt={`Снимок страницы «${page.title}»`} width="1440" height="760" loading="lazy" />
+              <img src={page.preview} alt={`Снимок страницы «${page.title}»`} width="1440" height="760" loading="lazy" data-preview-id={page.id} />
             </a>
           )}
 
@@ -280,8 +280,30 @@ const globalProgress = globalBlocks.filter((block) => block.status === 'progress
     }
   };
 
+  const previewVersions = new Map();
+  const refreshPreviews = async () => {
+    try {
+      const response = await fetch(`/structure/pages/live/version.json?ts=${Date.now()}`, {
+        cache: 'no-store',
+      });
+      if (!response.ok) return;
+      const payload = await response.json();
+      document.querySelectorAll('[data-preview-id]').forEach((image) => {
+        const id = image.dataset.previewId;
+        const version = payload?.pages?.[id];
+        if (!version || previewVersions.get(id) === version) return;
+        previewVersions.set(id, version);
+        image.src = `/structure/pages/live/${id}.jpg?v=${encodeURIComponent(version)}`;
+      });
+    } catch {
+      /* статический снимок остаётся fallback */
+    }
+  };
+
   syncStructure();
+  refreshPreviews();
   window.setInterval(syncStructure, 2500);
+  window.setInterval(refreshPreviews, 2500);
 </script>
 
 <style>
