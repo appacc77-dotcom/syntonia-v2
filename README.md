@@ -43,9 +43,10 @@ reports/layout/         отчёты по карточкам
 в `done` переснимает верх страницы (1440×760) в
 `public/structure/pages/live/`. `npm run previews:once` — разовый прогон.
 `/structure.html` каждые 2,5 с проверяет `version.json` и подменяет картинки
-без перезагрузки. Playwright берётся из соседнего `syntonia-deepseek`
-(переопределяется `PLAYWRIGHT_PATH`). Поблочные сравнения home/method пока
-статичны.
+без перезагрузки. Поблочные пары (старая сборка / сделано) лежат в
+`public/structure/blocks/`; пересъёмка — `node scripts/structure-blocks.mjs`.
+Playwright берётся из соседнего `syntonia-deepseek` (переопределяется
+`PLAYWRIGHT_PATH`).
 
 ## Выгрузка из Figma
 

@@ -45,6 +45,39 @@ const methodShot = (id: string): Shots => ({
   warning: 'Эталон — рендер старой сборки, не экспорт Figma. Пиксельная Δ ниже — регрессия, а не доказательство соответствия макету.',
 });
 
+
+const oldShot = (
+  page: string,
+  block: string,
+  warning = 'Figma-рендера этой страницы нет: слева — старая сборка, справа — текущая.',
+): Shots => ({
+  before: `/structure/blocks/${page}-${block}-before.jpg`,
+  after: `/structure/blocks/${page}-${block}-after.jpg`,
+  beforeLabel: 'Старая сборка',
+  afterLabel: 'Сделано',
+  warning,
+});
+
+const sharedHeaderShot: Shots = {
+  before: '/structure/header-figma.jpg',
+  after: '/structure/blocks/shared-header-after.jpg',
+  beforeLabel: 'Figma',
+  afterLabel: 'Сделано',
+};
+
+const sharedFooterShot: Shots = {
+  before: '/structure/home-footer-figma.jpg',
+  after: '/structure/blocks/shared-footer-after.jpg',
+  beforeLabel: 'Figma',
+  afterLabel: 'Сделано',
+};
+
+const quizShot = oldShot(
+  'quiz',
+  'quiz-section',
+  'Отдельных экранов cover/thanks в сборке нет — показан общий quiz-блок.',
+);
+
 export const globalBlocks: Block[] = [
   {
     id: 'header',
@@ -52,7 +85,8 @@ export const globalBlocks: Block[] = [
     does: 'Фиксированная тёмная шапка: nav, лого, CTA «Личная встреча», кабинет, бургер и мобильное меню.',
     task: 'Якоря, тап-таргет и фокус исправлены; 7 nav-ссылок + CTA. Смотреть приёмку.',
     status: 'done',
-    note: 'Карточка c-3fea934a — на приёмке, RED снят.',
+    note: 'Карточка c-3fea934a — принята.',
+    images: sharedHeaderShot,
   },
   {
     id: 'footer',
@@ -60,13 +94,8 @@ export const globalBlocks: Block[] = [
     does: 'Навигация, контакты, юридические ссылки, лого и подпись.',
     task: 'Якоря исправлены; соцсети и Cookie settings — заглушки.',
     status: 'done',
-    note: 'Карточка c-3de034d8 — на приёмке; Δ 8,41 на главной.',
-    images: {
-      before: '/structure/home-footer-figma.jpg',
-      after: '/structure/home-footer-site.jpg',
-      beforeLabel: 'Figma',
-      afterLabel: 'Сделано',
-    },
+    note: 'Карточка c-3de034d8 — принята; Δ 8,41 на главной.',
+    images: sharedFooterShot,
   },
 ];
 
@@ -232,11 +261,11 @@ export const pages: SitePage[] = [
     note: 'Собрано 3886; ждёт приёмки. 1:1 Figma-рендера нет.',
     height: '3 886 px',
     blocks: [
-      { id: 'founder-hero', title: 'Founder hero', does: 'Первый экран с основателем.', task: 'Собрано; проверить на приёмке.', status: 'done' },
-      { id: 'masters-team', title: 'Masters team', does: 'Команда мастеров и направления.', task: 'Собрано; проверить на приёмке.', status: 'done' },
-      { id: 'masters-more', title: 'Masters more', does: 'Дополнительный блок о подходе.', task: 'Собрано; проверить на приёмке.', status: 'done' },
-      { id: 'footer', title: 'Footer', does: 'Общий подвал.', task: 'Собрано; проверить на приёмке.', status: 'done' },
-      { id: 'header', title: 'Header', does: 'Общая шапка.', task: 'Собрано; проверить на приёмке.', status: 'done' },
+      { id: 'founder-hero', title: 'Founder hero', does: 'Первый экран с основателем.', task: 'Собрано; проверить на приёмке.', status: 'done', images: oldShot('masters', 'founder-hero') },
+      { id: 'masters-team', title: 'Masters team', does: 'Команда мастеров и направления.', task: 'Собрано; проверить на приёмке.', status: 'done', images: oldShot('masters', 'masters-team') },
+      { id: 'masters-more', title: 'Masters more', does: 'Дополнительный блок о подходе.', task: 'Собрано; проверить на приёмке.', status: 'done', images: oldShot('masters', 'masters-more') },
+      { id: 'footer', title: 'Footer', does: 'Общий подвал.', task: 'Собрано; проверить на приёмке.', status: 'done', images: sharedFooterShot },
+      { id: 'header', title: 'Header', does: 'Общая шапка.', task: 'Собрано; проверить на приёмке.', status: 'done', images: sharedHeaderShot },
     ],
   },
   {
@@ -249,14 +278,14 @@ export const pages: SitePage[] = [
     note: 'Собрано 9292; ждёт приёмки. Цены не подтверждены.',
     height: '9 292 px',
     blocks: [
-      { id: 'hero', title: 'Hero', does: 'Первый экран практик.', task: 'Собрано; проверить на приёмке.', status: 'done' },
-      { id: 'practice-free', title: 'Practice free', does: 'Бесплатный вход в практику.', task: 'Собрано; проверить на приёмке.', status: 'done' },
-      { id: 'quiz', title: 'Quiz', does: 'Встроенный quiz.', task: 'Собрано; проверить на приёмке.', status: 'done' },
-      { id: 'practice-pay', title: 'Practice pay', does: 'Платные практики.', task: 'Собрано; проверить на приёмке.', status: 'done' },
-      { id: 'kody-practice-pay', title: 'Kody practice pay', does: 'Практики «Коды».', task: 'Собрано; проверить на приёмке.', status: 'done' },
-      { id: 'practice-package', title: 'Practice package', does: 'Пакет практик.', task: 'Собрано; проверить на приёмке.', status: 'done' },
-      { id: 'info-section', title: 'Info section', does: 'Информационный блок.', task: 'Собрано; проверить на приёмке.', status: 'done' },
-      { id: 'footer', title: 'Footer', does: 'Общий подвал.', task: 'Собрано; проверить на приёмке.', status: 'done' },
+      { id: 'hero', title: 'Hero', does: 'Первый экран практик.', task: 'Собрано; проверить на приёмке.', status: 'done', images: oldShot('practice', 'hero') },
+      { id: 'practice-free', title: 'Practice free', does: 'Бесплатный вход в практику.', task: 'Собрано; проверить на приёмке.', status: 'done', images: oldShot('practice', 'practice-free') },
+      { id: 'quiz', title: 'Quiz', does: 'Встроенный quiz.', task: 'Собрано; проверить на приёмке.', status: 'done', images: oldShot('practice', 'quiz') },
+      { id: 'practice-pay', title: 'Practice pay', does: 'Платные практики.', task: 'Собрано; проверить на приёмке.', status: 'done', images: oldShot('practice', 'practice-pay') },
+      { id: 'kody-practice-pay', title: 'Kody practice pay', does: 'Практики «Коды».', task: 'Собрано; проверить на приёмке.', status: 'done', images: oldShot('practice', 'kody-practice-pay') },
+      { id: 'practice-package', title: 'Practice package', does: 'Пакет практик.', task: 'Собрано; проверить на приёмке.', status: 'done', images: oldShot('practice', 'practice-package') },
+      { id: 'info-section', title: 'Info section', does: 'Информационный блок.', task: 'Собрано; проверить на приёмке.', status: 'done', images: oldShot('practice', 'info-section') },
+      { id: 'footer', title: 'Footer', does: 'Общий подвал.', task: 'Собрано; проверить на приёмке.', status: 'done', images: sharedFooterShot },
     ],
   },
   {
@@ -269,10 +298,10 @@ export const pages: SitePage[] = [
     note: 'Собрано 3188 px; journal-шаблоны не начаты.',
     height: '3 188 px',
     blocks: [
-      { id: 'library-hero', title: 'Library hero', does: 'Первый экран библиотеки.', task: 'Собрано; проверить на приёмке.', status: 'done' },
-      { id: 'library-book', title: 'Library book', does: 'Книга Syntonia.', task: 'Собрано; проверить на приёмке.', status: 'done' },
-      { id: 'library-journal', title: 'Library journal', does: 'Журнал и выпуски.', task: 'Собрано; проверить на приёмке.', status: 'done' },
-      { id: 'library-issues', title: 'Library issues', does: 'Сетка выпусков.', task: 'Собрано; проверить на приёмке.', status: 'done' },
+      { id: 'library-hero', title: 'Library hero', does: 'Первый экран библиотеки.', task: 'Собрано; проверить на приёмке.', status: 'done', images: oldShot('library', 'library-hero') },
+      { id: 'library-book', title: 'Library book', does: 'Книга Syntonia.', task: 'Собрано; проверить на приёмке.', status: 'done', images: oldShot('library', 'library-book') },
+      { id: 'library-journal', title: 'Library journal', does: 'Журнал и выпуски.', task: 'Собрано; проверить на приёмке.', status: 'done', images: oldShot('library', 'library-journal') },
+      { id: 'library-issues', title: 'Library issues', does: 'Сетка выпусков.', task: 'Собрано; проверить на приёмке.', status: 'done', images: oldShot('library', 'library-issues') },
       { id: 'journal-start', title: 'Journal start', does: 'Стартовая страница журнала.', task: 'Собрать отдельным шаблоном.', status: 'todo' },
       { id: 'journal-issue', title: 'Journal issue', does: 'Страница выпуска, 9692 px.', task: 'Собрать после основного шаблона.', status: 'todo' },
     ],
@@ -287,9 +316,9 @@ export const pages: SitePage[] = [
     note: 'Собрано 2416; форма без endpoint. 1:1 Figma-рендера нет.',
     height: '2 416 px',
     blocks: [
-      { id: 'booking-hero', title: 'Booking hero', does: 'Первый экран записи.', task: 'Собрано; проверить на приёмке.', status: 'done' },
-      { id: 'booking-formats', title: 'Booking formats', does: 'Форматы и форма.', task: 'Собрано; проверить на приёмке.', status: 'done' },
-      { id: 'footer', title: 'Footer', does: 'Общий подвал.', task: 'Собрано; проверить на приёмке.', status: 'done' },
+      { id: 'booking-hero', title: 'Booking hero', does: 'Первый экран записи.', task: 'Собрано; проверить на приёмке.', status: 'done', images: oldShot('booking', 'booking-hero') },
+      { id: 'booking-formats', title: 'Booking formats', does: 'Форматы и форма.', task: 'Собрано; проверить на приёмке.', status: 'done', images: oldShot('booking', 'booking-formats') },
+      { id: 'footer', title: 'Footer', does: 'Общий подвал.', task: 'Собрано; проверить на приёмке.', status: 'done', images: sharedFooterShot },
     ],
   },
   {
@@ -302,9 +331,9 @@ export const pages: SitePage[] = [
     note: 'Собрано 1218 px; 4 вопроса, результат. Полного набора 12 вопросов нет.',
     height: '1 218 px',
     blocks: [
-      { id: 'quiz-section', title: 'Quiz section', does: 'Вопросы и результат.', task: 'Собрано; проверить на приёмке.', status: 'done' },
-      { id: 'cover', title: 'Cover', does: 'Обложка quiz.', task: 'Собрано; проверить на приёмке.', status: 'done' },
-      { id: 'thanks', title: 'Thanks', does: 'Экран благодарности.', task: 'Собрано; проверить на приёмке.', status: 'done' },
+      { id: 'quiz-section', title: 'Quiz section', does: 'Вопросы и результат.', task: 'Собрано; проверить на приёмке.', status: 'done', images: oldShot('quiz', 'quiz-section') },
+      { id: 'cover', title: 'Cover', does: 'Обложка quiz.', task: 'Собрано; проверить на приёмке.', status: 'done', images: quizShot },
+      { id: 'thanks', title: 'Thanks', does: 'Экран благодарности.', task: 'Собрано; проверить на приёмке.', status: 'done', images: quizShot },
     ],
   },
   {
@@ -316,7 +345,7 @@ export const pages: SitePage[] = [
     status: 'done',
     note: 'Макета нет — типовой текстовый шаблон.',
     height: 'text',
-    blocks: [{ id: 'legal', title: 'Legal text', does: 'Юридический текст.', task: 'Собрано; проверить на приёмке.', status: 'done' }],
+    blocks: [{ id: 'legal', title: 'Legal text', does: 'Юридический текст.', task: 'Собрано; проверить на приёмке.', status: 'done', images: oldShot('offer', 'legal') }],
   },
   {
     id: 'privacy',
@@ -327,7 +356,7 @@ export const pages: SitePage[] = [
     status: 'done',
     note: 'Макета нет — типовой текстовый шаблон.',
     height: 'text',
-    blocks: [{ id: 'legal', title: 'Legal text', does: 'Юридический текст.', task: 'Собрано; проверить на приёмке.', status: 'done' }],
+    blocks: [{ id: 'legal', title: 'Legal text', does: 'Юридический текст.', task: 'Собрано; проверить на приёмке.', status: 'done', images: oldShot('privacy', 'legal') }],
   },
   {
     id: 'consent',
@@ -338,7 +367,7 @@ export const pages: SitePage[] = [
     status: 'done',
     note: 'Макета нет — типовой текстовый шаблон.',
     height: 'text',
-    blocks: [{ id: 'legal', title: 'Legal text', does: 'Юридический текст.', task: 'Собрано; проверить на приёмке.', status: 'done' }],
+    blocks: [{ id: 'legal', title: 'Legal text', does: 'Юридический текст.', task: 'Собрано; проверить на приёмке.', status: 'done', images: oldShot('consent', 'legal') }],
   },
   {
     id: '404',
@@ -349,7 +378,7 @@ export const pages: SitePage[] = [
     status: 'done',
     note: 'Макета нет.',
     height: 'text',
-    blocks: [{ id: '404', title: '404', does: 'Страница ошибки.', task: 'Собрано; проверить на приёмке.', status: 'done' }],
+    blocks: [{ id: '404', title: '404', does: 'Страница ошибки.', task: 'Собрано; проверить на приёмке.', status: 'done', images: oldShot('404', '404') }],
   },
 ];
 
