@@ -13,12 +13,14 @@
  */
 import { createRequire } from 'node:module';
 import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const liveDir = path.join(root, 'public/structure/pages/live');
 const versionFile = path.join(liveDir, 'version.json');
+const blocksScript = path.join(root, 'scripts/structure-blocks.mjs');
 const baseUrl = process.env.SYNTAONIA_URL ?? 'http://127.0.0.1:4321';
 const boardUrl = process.env.DSH_BOARD_URL ?? 'http://127.0.0.1:57686/kanban/api/board';
 const once = process.argv.includes('--once');
@@ -105,6 +107,16 @@ const main = async () => {
         if (!shouldCapture) continue;
         try {
           await capture(browser, page);
+          if (!first && was !== 'done') {
+            try {
+              execFileSync(process.execPath, [blocksScript, '--only', page.id], {
+                env: process.env,
+                stdio: 'inherit',
+              });
+            } catch (error) {
+              console.error(`[preview] blocks ${page.id}: ${error.message}`);
+            }
+          }
           versions.pages[page.id] = String(Date.now());
           changed = true;
           console.log(`[preview] ${page.id} ← ${page.route}`);

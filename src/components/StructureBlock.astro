@@ -8,9 +8,10 @@ interface Props {
   anchorId: string;
   cardLabel: string;
   liveCardTitle?: string;
+  pageId?: string;
 }
 
-const { block, pageRoute, anchorId, cardLabel, liveCardTitle } = Astro.props;
+const { block, pageRoute, anchorId, cardLabel, liveCardTitle, pageId } = Astro.props;
 ---
 
 <article
@@ -18,6 +19,7 @@ const { block, pageRoute, anchorId, cardLabel, liveCardTitle } = Astro.props;
   id={anchorId}
   data-status={block.status}
   data-live-card={liveCardTitle}
+  data-block-page={pageId}
 >
   <div class="block__body">
     <div class="block__top">
@@ -45,6 +47,8 @@ const { block, pageRoute, anchorId, cardLabel, liveCardTitle } = Astro.props;
             src={block.images.before}
             alt={`${block.title}: ${block.images.beforeLabel ?? 'эталон'}`}
             loading="lazy"
+            data-block-image
+            data-block-page={pageId}
           />
           <figcaption>{block.images.beforeLabel ?? 'Эталон'}</figcaption>
         </figure>
@@ -53,6 +57,8 @@ const { block, pageRoute, anchorId, cardLabel, liveCardTitle } = Astro.props;
             src={block.images.after}
             alt={`${block.title}: сделано`}
             loading="lazy"
+            data-block-image
+            data-block-page={pageId}
           />
           <figcaption>{block.images.afterLabel ?? 'Сделано'}</figcaption>
         </figure>

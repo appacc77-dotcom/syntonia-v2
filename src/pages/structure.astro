@@ -99,6 +99,7 @@ const globalProgress = globalBlocks.filter((block) => block.status === 'progress
               anchorId={`block-${block.id}`}
               cardLabel={`Shared · ${block.title}`}
               liveCardTitle={`Shared · ${block.title}`}
+              pageId="shared"
             />
           ))
         }
@@ -150,6 +151,7 @@ const globalProgress = globalBlocks.filter((block) => block.status === 'progress
                   anchorId={`block-${page.id}-${block.id}`}
                   cardLabel={`${page.id === 'home' ? 'Home' : page.id === 'method' ? 'Method' : 'Page'} · ${page.id === 'home' || page.id === 'method' ? block.title : page.title}`}
                   liveCardTitle={page.id === 'home' ? `Home · ${block.title}` : page.id === 'method' ? `Method · ${block.title}` : undefined}
+                  pageId={page.id}
                 />
               ))
             }
@@ -294,6 +296,10 @@ const globalProgress = globalBlocks.filter((block) => block.status === 'progress
         if (!version || previewVersions.get(id) === version) return;
         previewVersions.set(id, version);
         image.src = `/structure/pages/live/${id}.jpg?v=${encodeURIComponent(version)}`;
+        document.querySelectorAll(`[data-block-page="${id}"] [data-block-image]`).forEach((blockImage) => {
+          if (!blockImage.dataset.baseSrc) blockImage.dataset.baseSrc = blockImage.getAttribute('src').split('?')[0];
+          blockImage.src = `${blockImage.dataset.baseSrc}?v=${encodeURIComponent(version)}`;
+        });
       });
     } catch {
       /* статический снимок остаётся fallback */
