@@ -1,3 +1,9 @@
+> Обновление 06.11: Figma main `323:422` экспортирован в
+> `public/structure/figma/method-1440.png` (1440×2737), секции — в
+> `method-hero.png`, `method-principles.png`, `method-cta.png`.
+> Истинная Figma-Δ страницы: **2,95 / 3,38 %**. Поблочные сравнения теперь
+> Figma / сделано. Всё, что ниже говорит «Figma-рендера нет», — историческое.
+
 # method — Method · Hero / Principles / CTA
 
 - **Карточки:** `c-9bd44e5b` (Hero), `c-a4d913ac` (Principles), `c-79204b21` (CTA)
@@ -173,3 +179,12 @@ baseline больше не выдаётся за Figma, отчёт содерж�
 репозитории; 2.85 — регрессия относительно старого QA-рендера. Если приёмка
 считает отсутствие Figma-рендера блокером, карточки остаются в review/blocked до
 его появления.
+
+
+## Figma 06.11 (обновление)
+
+- main `323:422` → `public/structure/figma/method-1440.png`, 1440×2737;
+- секции `323:423` / `323:871` / `334:992` → `method-hero.png`,
+  `method-principles.png`, `method-cta.png`;
+- истинная Figma-Δ: **2,95 / 3,38 %** (было 2,85 к старому QA-рендеру);
+- ограничение «Figma-рендера метода нет» снято.

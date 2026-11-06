@@ -20,6 +20,7 @@ import { fileURLToPath } from 'node:url';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const liveDir = path.join(root, 'public/structure/pages/live');
 const versionFile = path.join(liveDir, 'version.json');
+const eventsFile = path.resolve(root, '../agent-system/preview-events.json');
 const blocksScript = path.join(root, 'scripts/structure-blocks.mjs');
 const baseUrl = process.env.SYNTAONIA_URL ?? 'http://127.0.0.1:4321';
 const boardUrl = process.env.DSH_BOARD_URL ?? 'http://127.0.0.1:57686/kanban/api/board';
@@ -53,6 +54,23 @@ const readVersions = () => {
     return { pages: {} };
   }
 };
+const appendEvent = (page) => {
+  let events = { updatedAt: null, events: [] };
+  try {
+    events = JSON.parse(readFileSync(eventsFile, 'utf8'));
+  } catch {
+    /* первый запуск */
+  }
+  if (!Array.isArray(events.events)) events.events = [];
+  events.events = events.events.filter((event) => event.page !== page.id);
+  events.events.push({ at: new Date().toISOString(), page: page.id, title: page.title });
+  events.updatedAt = new Date().toISOString();
+  mkdirSync(path.dirname(eventsFile), { recursive: true });
+  const tmp = `${eventsFile}.tmp`;
+  writeFileSync(tmp, `${JSON.stringify(events, null, 2)}\n`);
+  renameSync(tmp, eventsFile);
+};
+
 const writeVersions = (versions) => {
   const tmp = `${versionFile}.tmp`;
   writeFileSync(tmp, `${JSON.stringify(versions, null, 2)}\n`);
@@ -117,6 +135,7 @@ const main = async () => {
               console.error(`[preview] blocks ${page.id}: ${error.message}`);
             }
           }
+          appendEvent(page);
           versions.pages[page.id] = String(Date.now());
           changed = true;
           console.log(`[preview] ${page.id} ← ${page.route}`);
@@ -125,6 +144,27 @@ const main = async () => {
         }
       }
 
+      const blockPages = cards
+        .filter((card) => card.column === 'done' && /^(Home|Method|Shared) · /.test(card.title))
+        .map((card) => ({
+          card,
+          pageId: card.title.startsWith('Home') ? 'home' : card.title.startsWith('Method') ? 'method' : 'shared',
+        }));
+      for (const { card, pageId } of blockPages) {
+        const was = previous.get(card.title);
+        if (first || was === 'done') continue;
+        try {
+          execFileSync(process.execPath, [blocksScript, '--only', pageId], {
+            env: process.env,
+            stdio: 'inherit',
+          });
+          versions.pages[pageId] = String(Date.now());
+          appendEvent({ id: pageId, title: card.title });
+          changed = true;
+        } catch (error) {
+          console.error(`[preview] blocks ${pageId}: ${error.message}`);
+        }
+      }
       if (changed) {
         versions.updatedAt = new Date().toISOString();
         writeVersions(versions);

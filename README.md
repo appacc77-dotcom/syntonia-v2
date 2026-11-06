@@ -121,8 +121,8 @@ Playwright берётся из соседнего `syntonia-deepseek` (пере�
 ## Страница «Мастера»
 
 `/masters.html`, 1440×3886: founder hero 839, team 2066, more 620, footer 361;
-на 390 — 6291. Секции собраны по extracted; 1:1 Figma-рендера нет, поэтому
-пиксельная Δ не заявляется. Аудио — честные заглушки.
+на 390 — 6119. Figma main 217:237 и секции экспортированы; Δ 6,11 / 11,37 %.
+Аудио — честные заглушки.
 
 ## Practice / Library / Booking / Quiz
 
@@ -133,8 +133,8 @@ Playwright берётся из соседнего `syntonia-deepseek` (пере�
 | Booking | 2416 | 3883 | reports/layout/booking.md |
 | Quiz | 1218 | 1834 | reports/layout/quiz.md |
 
-Собраны по extracted/старому CSS; 1:1 Figma-рендеров нет. Цены не
-подтверждены, форма записи без endpoint, quiz — 4 draft-вопроса.
+Figma main и секции экспортированы; Δ: practice 11,28, library 8,27,
+booking 6,34. Цены не подтверждены, форма записи без endpoint, quiz — 4 draft-вопроса.
 
 ## Legal / 404
 

@@ -15,4 +15,4 @@
 | 404 | 991 | 1404 | review | reports/layout/legal.md |
 
 Ожидаемые высоты Practice/Library/Booking/Quiz — из extracted; после сборки
-заменить на фактические. 1:1 Figma-рендеров этих страниц нет.
+Figma main-фреймы и секции экспортированы 06.11; у legal/404 Figma нет.

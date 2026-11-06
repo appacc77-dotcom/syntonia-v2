@@ -38,11 +38,10 @@ const homeShot = (id: string): Shots => ({
 });
 
 const methodShot = (id: string): Shots => ({
-  before: `/structure/method-${id}-ref.jpg`,
+  before: `/structure/figma/method-${id}.png`,
   after: `/structure/method-${id}-site.jpg`,
-  beforeLabel: 'Эталон, не Figma',
+  beforeLabel: 'Figma',
   afterLabel: 'Сделано',
-  warning: 'Эталон — рендер старой сборки, не экспорт Figma. Пиксельная Δ ниже — регрессия, а не доказательство соответствия макету.',
 });
 
 
@@ -54,6 +53,18 @@ const oldShot = (
   before: `/structure/blocks/${page}-${block}-before.jpg`,
   after: `/structure/blocks/${page}-${block}-after.jpg`,
   beforeLabel: 'Старая сборка',
+  afterLabel: 'Сделано',
+  warning,
+});
+
+const figmaShot = (
+  page: string,
+  block: string,
+  warning = 'Сравнение с Figma-секцией; справа — текущая сборка.',
+): Shots => ({
+  before: `/structure/figma/${page}-${block}.png`,
+  after: `/structure/blocks/${page}-${block}-after.jpg`,
+  beforeLabel: 'Figma',
   afterLabel: 'Сделано',
   warning,
 });
@@ -222,7 +233,7 @@ export const pages: SitePage[] = [
     title: 'Метод',
     route: '/method.html',
     status: 'done',
-    note: 'Собрано 2737 px, геометрия и адаптив сходятся. Правки width/отчёта внесены; ждёт приёмки. Остаток: 1:1 Figma-рендера нет.',
+    note: 'Собрано 2737 px, геометрия и адаптив сходятся. Правки width/отчёта внесены; ждёт приёмки. Figma main 323:422 и секции экспортированы.',
     height: '2 737 px',
     blocks: [
       {
@@ -258,12 +269,12 @@ export const pages: SitePage[] = [
     route: '/masters.html',
     preview: '/structure/pages/masters.jpg',
     status: 'done',
-    note: 'Собрано 3886; ждёт приёмки. 1:1 Figma-рендера нет.',
+    note: 'Собрано 3886; Figma main 217:237 и секции экспортированы.',
     height: '3 886 px',
     blocks: [
-      { id: 'founder-hero', title: 'Founder hero', does: 'Первый экран с основателем.', task: 'Собрано; проверить на приёмке.', status: 'done', images: oldShot('masters', 'founder-hero') },
-      { id: 'masters-team', title: 'Masters team', does: 'Команда мастеров и направления.', task: 'Собрано; проверить на приёмке.', status: 'done', images: oldShot('masters', 'masters-team') },
-      { id: 'masters-more', title: 'Masters more', does: 'Дополнительный блок о подходе.', task: 'Собрано; проверить на приёмке.', status: 'done', images: oldShot('masters', 'masters-more') },
+      { id: 'founder-hero', title: 'Founder hero', does: 'Первый экран с основателем.', task: 'Собрано; проверить на приёмке.', status: 'done', images: figmaShot('masters', 'founder-hero') },
+      { id: 'masters-team', title: 'Masters team', does: 'Команда мастеров и направления.', task: 'Собрано; проверить на приёмке.', status: 'done', images: figmaShot('masters', 'masters-team') },
+      { id: 'masters-more', title: 'Masters more', does: 'Дополнительный блок о подходе.', task: 'Собрано; проверить на приёмке.', status: 'done', images: figmaShot('masters', 'masters-more') },
       { id: 'footer', title: 'Footer', does: 'Общий подвал.', task: 'Собрано; проверить на приёмке.', status: 'done', images: sharedFooterShot },
       { id: 'header', title: 'Header', does: 'Общая шапка.', task: 'Собрано; проверить на приёмке.', status: 'done', images: sharedHeaderShot },
     ],
@@ -278,13 +289,13 @@ export const pages: SitePage[] = [
     note: 'Собрано 9292; ждёт приёмки. Цены не подтверждены.',
     height: '9 292 px',
     blocks: [
-      { id: 'hero', title: 'Hero', does: 'Первый экран практик.', task: 'Собрано; проверить на приёмке.', status: 'done', images: oldShot('practice', 'hero') },
-      { id: 'practice-free', title: 'Practice free', does: 'Бесплатный вход в практику.', task: 'Собрано; проверить на приёмке.', status: 'done', images: oldShot('practice', 'practice-free') },
-      { id: 'quiz', title: 'Quiz', does: 'Встроенный quiz.', task: 'Собрано; проверить на приёмке.', status: 'done', images: oldShot('practice', 'quiz') },
-      { id: 'practice-pay', title: 'Practice pay', does: 'Платные практики.', task: 'Собрано; проверить на приёмке.', status: 'done', images: oldShot('practice', 'practice-pay') },
-      { id: 'kody-practice-pay', title: 'Kody practice pay', does: 'Практики «Коды».', task: 'Собрано; проверить на приёмке.', status: 'done', images: oldShot('practice', 'kody-practice-pay') },
-      { id: 'practice-package', title: 'Practice package', does: 'Пакет практик.', task: 'Собрано; проверить на приёмке.', status: 'done', images: oldShot('practice', 'practice-package') },
-      { id: 'info-section', title: 'Info section', does: 'Информационный блок.', task: 'Собрано; проверить на приёмке.', status: 'done', images: oldShot('practice', 'info-section') },
+      { id: 'hero', title: 'Hero', does: 'Первый экран практик.', task: 'Собрано; проверить на приёмке.', status: 'done', images: figmaShot('practice', 'hero') },
+      { id: 'practice-free', title: 'Practice free', does: 'Бесплатный вход в практику.', task: 'Собрано; проверить на приёмке.', status: 'done', images: figmaShot('practice', 'practice-free') },
+      { id: 'quiz', title: 'Quiz', does: 'Встроенный quiz.', task: 'Собрано; проверить на приёмке.', status: 'done', images: figmaShot('practice', 'quiz') },
+      { id: 'practice-pay', title: 'Practice pay', does: 'Платные практики.', task: 'Собрано; проверить на приёмке.', status: 'done', images: figmaShot('practice', 'practice-pay') },
+      { id: 'kody-practice-pay', title: 'Kody practice pay', does: 'Практики «Коды».', task: 'Собрано; проверить на приёмке.', status: 'done', images: figmaShot('practice', 'kody-practice-pay') },
+      { id: 'practice-package', title: 'Practice package', does: 'Пакет практик.', task: 'Собрано; проверить на приёмке.', status: 'done', images: figmaShot('practice', 'practice-package') },
+      { id: 'info-section', title: 'Info section', does: 'Информационный блок.', task: 'Собрано; проверить на приёмке.', status: 'done', images: figmaShot('practice', 'info-section') },
       { id: 'footer', title: 'Footer', does: 'Общий подвал.', task: 'Собрано; проверить на приёмке.', status: 'done', images: sharedFooterShot },
     ],
   },
@@ -298,10 +309,10 @@ export const pages: SitePage[] = [
     note: 'Собрано 3188 px; journal-шаблоны не начаты.',
     height: '3 188 px',
     blocks: [
-      { id: 'library-hero', title: 'Library hero', does: 'Первый экран библиотеки.', task: 'Собрано; проверить на приёмке.', status: 'done', images: oldShot('library', 'library-hero') },
-      { id: 'library-book', title: 'Library book', does: 'Книга Syntonia.', task: 'Собрано; проверить на приёмке.', status: 'done', images: oldShot('library', 'library-book') },
-      { id: 'library-journal', title: 'Library journal', does: 'Журнал и выпуски.', task: 'Собрано; проверить на приёмке.', status: 'done', images: oldShot('library', 'library-journal') },
-      { id: 'library-issues', title: 'Library issues', does: 'Сетка выпусков.', task: 'Собрано; проверить на приёмке.', status: 'done', images: oldShot('library', 'library-issues') },
+      { id: 'library-hero', title: 'Library hero', does: 'Первый экран библиотеки.', task: 'Собрано; проверить на приёмке.', status: 'done', images: figmaShot('library', 'library-hero') },
+      { id: 'library-book', title: 'Library book', does: 'Книга Syntonia.', task: 'Собрано; проверить на приёмке.', status: 'done', images: figmaShot('library', 'library-book') },
+      { id: 'library-journal', title: 'Library journal', does: 'Журнал и выпуски.', task: 'Собрано; проверить на приёмке.', status: 'done', images: figmaShot('library', 'library-journal') },
+      { id: 'library-issues', title: 'Library issues', does: 'Сетка выпусков.', task: 'Собрано; проверить на приёмке.', status: 'done', images: figmaShot('library', 'library-issues') },
       { id: 'journal-start', title: 'Journal start', does: 'Стартовая страница журнала.', task: 'Собрать отдельным шаблоном.', status: 'todo' },
       { id: 'journal-issue', title: 'Journal issue', does: 'Страница выпуска, 9692 px.', task: 'Собрать после основного шаблона.', status: 'todo' },
     ],
@@ -313,11 +324,11 @@ export const pages: SitePage[] = [
     route: '/booking.html',
     preview: '/structure/pages/booking.jpg',
     status: 'done',
-    note: 'Собрано 2416; форма без endpoint. 1:1 Figma-рендера нет.',
+    note: 'Собрано 2416; Figma main 383:286 экспортирован; форма без endpoint.',
     height: '2 416 px',
     blocks: [
-      { id: 'booking-hero', title: 'Booking hero', does: 'Первый экран записи.', task: 'Собрано; проверить на приёмке.', status: 'done', images: oldShot('booking', 'booking-hero') },
-      { id: 'booking-formats', title: 'Booking formats', does: 'Форматы и форма.', task: 'Собрано; проверить на приёмке.', status: 'done', images: oldShot('booking', 'booking-formats') },
+      { id: 'booking-hero', title: 'Booking hero', does: 'Первый экран записи.', task: 'Собрано; проверить на приёмке.', status: 'done', images: figmaShot('booking', 'booking-hero') },
+      { id: 'booking-formats', title: 'Booking formats', does: 'Форматы и форма.', task: 'Собрано; проверить на приёмке.', status: 'done', images: figmaShot('booking', 'booking-formats') },
       { id: 'footer', title: 'Footer', does: 'Общий подвал.', task: 'Собрано; проверить на приёмке.', status: 'done', images: sharedFooterShot },
     ],
   },
@@ -331,9 +342,9 @@ export const pages: SitePage[] = [
     note: 'Собрано 1218 px; 4 вопроса, результат. Полного набора 12 вопросов нет.',
     height: '1 218 px',
     blocks: [
-      { id: 'quiz-section', title: 'Quiz section', does: 'Вопросы и результат.', task: 'Собрано; проверить на приёмке.', status: 'done', images: oldShot('quiz', 'quiz-section') },
-      { id: 'cover', title: 'Cover', does: 'Обложка quiz.', task: 'Собрано; проверить на приёмке.', status: 'done', images: quizShot },
-      { id: 'thanks', title: 'Thanks', does: 'Экран благодарности.', task: 'Собрано; проверить на приёмке.', status: 'done', images: quizShot },
+      { id: 'quiz-section', title: 'Quiz section', does: 'Вопросы и результат.', task: 'Собрано; проверить на приёмке.', status: 'done', images: figmaShot('quiz', 'quiz-section', 'Сравнение с Figma-секцией quiz; справа — текущая сборка.') },
+      { id: 'cover', title: 'Cover', does: 'Обложка quiz.', task: 'Отдельный экран не собран.', status: 'todo' },
+      { id: 'thanks', title: 'Thanks', does: 'Экран благодарности.', task: 'Отдельный экран не собран.', status: 'todo' },
     ],
   },
   {

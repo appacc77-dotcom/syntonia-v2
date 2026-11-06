@@ -35,9 +35,9 @@ const globalProgress = globalBlocks.filter((block) => block.status === 'progress
       <h1>Структура сайта</h1>
       <p class="lead">
         Что уже собрано, что делает каждый блок и что осталось. У каждого
-        собранного блока — два превью: Figma, где она есть, иначе старая
-        сборка; справа — сделано. Для блоков без отдельного экрана это
-        помечено в подписи. Ссылки ведут на локальный сервер.
+        собранного блока — Figma-секция и текущая сборка; для legal/404, которых
+        нет в Figma, слева — старая сборка. Для журнальных шаблонов и экранов
+        quiz cover/thanks превью нет. Ссылки ведут на локальный сервер.
       </p>
 
       <div class="stats">
@@ -167,7 +167,8 @@ const globalProgress = globalBlocks.filter((block) => block.status === 'progress
         вручную; пиксельные хвосты — в README.
       </p>
       <p class="foot__warn">
-        Method: эталон — старый рендер, не Figma. Это помечено у каждого блока.
+        Method: секции экспортированы из Figma 06.11, старый рендер больше не
+        используется как эталон.
       </p>
     </footer>
   </div>
@@ -290,12 +291,12 @@ const globalProgress = globalBlocks.filter((block) => block.status === 'progress
       });
       if (!response.ok) return;
       const payload = await response.json();
-      document.querySelectorAll('[data-preview-id]').forEach((image) => {
-        const id = image.dataset.previewId;
-        const version = payload?.pages?.[id];
+      const versions = payload?.pages ?? {};
+      Object.entries(versions).forEach(([id, version]) => {
         if (!version || previewVersions.get(id) === version) return;
         previewVersions.set(id, version);
-        image.src = `/structure/pages/live/${id}.jpg?v=${encodeURIComponent(version)}`;
+        const image = document.querySelector(`[data-preview-id="${id}"]`);
+        if (image) image.src = `/structure/pages/live/${id}.jpg?v=${encodeURIComponent(version)}`;
         document.querySelectorAll(`[data-block-page="${id}"] [data-block-image]`).forEach((blockImage) => {
           if (!blockImage.dataset.baseSrc) blockImage.dataset.baseSrc = blockImage.getAttribute('src').split('?')[0];
           blockImage.src = `${blockImage.dataset.baseSrc}?v=${encodeURIComponent(version)}`;
