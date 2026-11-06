@@ -117,10 +117,10 @@ reports/layout/         отчёты по карточкам
 
 | Страница | 1440 | 390 | Отчёт |
 |---|---:|---:|---|
-| Practice | 9292 | 14459 | reports/layout/practice.md |
-| Library | 3188 | 5126 | reports/layout/library.md |
-| Booking | 2416 | 4055 | reports/layout/booking.md |
-| Quiz | 1218 | 2006 | reports/layout/quiz.md |
+| Practice | 9292 | 14287 | reports/layout/practice.md |
+| Library | 3188 | 4954 | reports/layout/library.md |
+| Booking | 2416 | 3883 | reports/layout/booking.md |
+| Quiz | 1218 | 1834 | reports/layout/quiz.md |
 
 Собраны по extracted/старому CSS; 1:1 Figma-рендеров нет. Цены не
 подтверждены, форма записи без endpoint, quiz — 4 draft-вопроса.
