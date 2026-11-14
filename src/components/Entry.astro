@@ -100,7 +100,7 @@ import Button from './Button.astro';
     max-width: 100%;
     height: 550px;
     display: grid;
-    grid-template-columns: 640px 640px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   }
 
   .entry__text {
@@ -157,7 +157,7 @@ import Button from './Button.astro';
 
   .entry__photo {
     position: relative;
-    width: 640px;
+    width: 100%;
     height: 550px;
     overflow: hidden;
     border-radius: 0 12px 12px 0;
